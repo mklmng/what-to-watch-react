@@ -16,7 +16,6 @@ export class FilmCard extends Component {
             if (time < 60){
                 return `${time}mins`;
             } 
-        
             let fullTime = ((time % 60) > 0) ? `${Math.floor(hours)}h ${(time % 60)}mins` : `${hours}h`;
             return fullTime;
         }
