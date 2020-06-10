@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/what-to-watch-app/static/css/main.2dfbb023.chunk.css",
-    "main.js": "/what-to-watch-app/static/js/main.96455c8a.chunk.js",
-    "main.js.map": "/what-to-watch-app/static/js/main.96455c8a.chunk.js.map",
-    "runtime-main.js": "/what-to-watch-app/static/js/runtime-main.42e1fffe.js",
-    "runtime-main.js.map": "/what-to-watch-app/static/js/runtime-main.42e1fffe.js.map",
-    "static/js/2.b80f39e2.chunk.js": "/what-to-watch-app/static/js/2.b80f39e2.chunk.js",
-    "static/js/2.b80f39e2.chunk.js.map": "/what-to-watch-app/static/js/2.b80f39e2.chunk.js.map",
-    "index.html": "/what-to-watch-app/index.html",
-    "precache-manifest.820fc34b242fa374f1325faf018d7ae2.js": "/what-to-watch-app/precache-manifest.820fc34b242fa374f1325faf018d7ae2.js",
-    "service-worker.js": "/what-to-watch-app/service-worker.js",
-    "static/css/main.2dfbb023.chunk.css.map": "/what-to-watch-app/static/css/main.2dfbb023.chunk.css.map",
-    "static/js/2.b80f39e2.chunk.js.LICENSE.txt": "/what-to-watch-app/static/js/2.b80f39e2.chunk.js.LICENSE.txt"
+    "main.css": "/what-to-watch-react/static/css/main.2dfbb023.chunk.css",
+    "main.js": "/what-to-watch-react/static/js/main.b1aace57.chunk.js",
+    "main.js.map": "/what-to-watch-react/static/js/main.b1aace57.chunk.js.map",
+    "runtime-main.js": "/what-to-watch-react/static/js/runtime-main.317e5aa5.js",
+    "runtime-main.js.map": "/what-to-watch-react/static/js/runtime-main.317e5aa5.js.map",
+    "static/js/2.b80f39e2.chunk.js": "/what-to-watch-react/static/js/2.b80f39e2.chunk.js",
+    "static/js/2.b80f39e2.chunk.js.map": "/what-to-watch-react/static/js/2.b80f39e2.chunk.js.map",
+    "index.html": "/what-to-watch-react/index.html",
+    "precache-manifest.6734876c897fe24558a8f4179760c891.js": "/what-to-watch-react/precache-manifest.6734876c897fe24558a8f4179760c891.js",
+    "service-worker.js": "/what-to-watch-react/service-worker.js",
+    "static/css/main.2dfbb023.chunk.css.map": "/what-to-watch-react/static/css/main.2dfbb023.chunk.css.map",
+    "static/js/2.b80f39e2.chunk.js.LICENSE.txt": "/what-to-watch-react/static/js/2.b80f39e2.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.42e1fffe.js",
+    "static/js/runtime-main.317e5aa5.js",
     "static/js/2.b80f39e2.chunk.js",
     "static/css/main.2dfbb023.chunk.css",
-    "static/js/main.96455c8a.chunk.js"
+    "static/js/main.b1aace57.chunk.js"
   ]
 }
