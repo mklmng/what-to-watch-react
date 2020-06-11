@@ -10,7 +10,7 @@ class FilterByWatched extends Component {
         return (
             <div className="row">
                 <div className="col-md-12">
-                    <div className="film-filter centered">
+                    <div id="filter-watched" className="film-filter centered">
                         <label htmlFor="watched">Hide films I have watched</label>
                         <input 
                             type="checkbox" 

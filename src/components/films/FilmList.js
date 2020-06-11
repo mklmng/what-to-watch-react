@@ -7,7 +7,9 @@ import PropTypes from 'prop-types'
 export class FilmList extends Component {
     static propTypes = {
         watched: PropTypes.bool.isRequired,
-        runtime: PropTypes.number.isRequired
+        runtime: PropTypes.number.isRequired,
+        oldestDecade: PropTypes.number.isRequired,
+        newestDecade: PropTypes.number.isRequired
     }
 
     state = {
@@ -28,32 +30,42 @@ export class FilmList extends Component {
     }   
 
     render() {
-        let results = '';
         let filteredFilms = this.state.films;
-
         if (!this.props.watched){
-            filteredFilms = filteredFilms.filter(film => film.watched === this.props.watched && film.runtime <= this.props.runtime);
+            filteredFilms = filteredFilms.filter(film => 
+                film.watched === this.props.watched 
+                && film.runtime <= this.props.runtime
+                && (film.year >= this.props.oldestDecade && film.year <= this.props.newestDecade + 9)                     
+                );
         } else{
-            filteredFilms = filteredFilms.filter(film => film.runtime <= this.props.runtime);
-        }
-
-        if (filteredFilms.length > 0){
-            if (filteredFilms.length > 1){
-            results = `There are ${filteredFilms.length} matches.`; 
-            } else {
-                results = `There is 1 match.`
-            }
-        } else {
-            results = `Sorry. There aren't any matches.`
+            filteredFilms = filteredFilms.filter(film => 
+                film.runtime <= this.props.runtime
+                && film.runtime <= this.props.runtime
+                && (film.year >= this.props.oldestDecade && film.year <= this.props.newestDecade + 9) 
+                );
         }
 
         return (
             <Fragment>
-                <div className="row space-below">
+                <div className="row">
                     <div className="col-md-12">
-                        <div className="results">
-                            {results}
-                        </div>
+                        {filteredFilms.length && 
+                            <div id="results">
+                            {filteredFilms.length > 1 && 
+                            <span>
+                                There are <strong>{filteredFilms.length}</strong> matches.
+                            </span>}
+                            {filteredFilms.length === 1 &&
+                            <span>
+                                There is <strong>{filteredFilms.length}</strong> match.
+                            </span>}
+                            {!filteredFilms.length &&
+                            <span>
+                                Sorry, there aren't any matches.
+                            </span>
+                            }
+                            </div>
+                        }
                     </div>
                 </div>
                 <div className="row">
