@@ -26,7 +26,6 @@ class App extends Component {
   handleFilterByDecade = (e) => {
     const decade = parseInt(e.target.value);
     const selectedIndex = e.target.selectedIndex;
-    console.log(selectedIndex);
 
     if (e.target.id === "oldest-decade"){
       if (decade > this.state.newestDecade){
