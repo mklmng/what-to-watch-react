@@ -1,7 +1,7 @@
 import React, { Fragment , Component } from 'react';
 import PropTypes from 'prop-types';
 
-export class FilmCard extends Component {
+class FilmCard extends Component {
     static propTypes = {
         title: PropTypes.string.isRequired,
         year: PropTypes.number.isRequired,
@@ -29,7 +29,7 @@ export class FilmCard extends Component {
                 <div className="col-md-4" key={this.props.id}>
                     <div className="card mb-4 box-shadow">
                         <img className="card-img-top" src={`https://via.placeholder.com/336x255?text=${this.props.title}`} alt={this.props.title} />
-                        <div className="card-body">
+                        <div className="card-body">                            
                             <p className="card-text">
                                 <span>Title: </span> {this.props.title}
                             </p>

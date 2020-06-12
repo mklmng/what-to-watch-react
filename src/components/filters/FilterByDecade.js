@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-export class FilterByDecade extends Component {
+class FilterByDecade extends Component {
   static propTypes = {
     handleFilterByDecade: PropTypes.func.isRequired,
   };

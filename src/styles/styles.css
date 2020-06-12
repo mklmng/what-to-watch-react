@@ -201,6 +201,14 @@ label[for="theme"]{
     color: #FFF;
 }
 
+#filter-genres{
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+}
+
 #genres,#filter-decades{
     position: relative;
     padding: 1rem;
@@ -218,7 +226,7 @@ label[for="theme"]{
     text-align: center;
     text-decoration: none;
     color:#FFF;
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-weight: bold;
     padding: 0.5rem 0;
     outline: none;
@@ -281,6 +289,7 @@ label[for="theme"]{
     background: #000;
     color:#FFF;
     padding: 0.75em 0;
+    border-bottom: 0;
 }
 
 .film-results::after{
@@ -318,7 +327,7 @@ label[for="theme"]{
 }
 
 .genre-selector,.decade-selector{
-    padding: 1.6rem;
+    padding: 1rem;
     display: inline-block;
 }
 
@@ -483,6 +492,29 @@ label[for="theme"]{
     color: #FF0;
 }
 
+.dark .card-body{
+    background: #232323;
+}
+
+.dark .card-body{
+    color: #FFF;
+}
+.dark .card-body span{
+    color: #FF0;
+}
+
+.dark .btn-outline-secondary{
+    background: #ccc;
+    border-color: transparent;
+    box-shadow: none;
+    color: #000;
+}
+
+.dark .btn-outline-secondary:hover{
+    border-color: transparent;
+    box-shadow: none;
+}
+
 [data-trailer=""] { /* We only show the option of watch trailer if the trailer is available */
     display: none;
 }
@@ -541,12 +573,12 @@ label[for="theme"]{
 
 footer{
     padding: 0.5rem 0;
-    background: #000;
+    background: #FFF;
     text-align: center;
 }
 
 footer small{
-    color: #FFF;
+    color: #000;
 }
 
 @media screen and (min-width: 480px) {

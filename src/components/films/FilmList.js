@@ -4,12 +4,13 @@ import Spinner from 'react-bootstrap/Spinner';
 import FilmCard from './FilmCard';
 import PropTypes from 'prop-types'
 
-export class FilmList extends Component {
+class FilmList extends Component {
     static propTypes = {
-        watched: PropTypes.bool.isRequired,
+        hideWatched: PropTypes.bool.isRequired,
         runtime: PropTypes.number.isRequired,
         oldestDecade: PropTypes.number.isRequired,
-        newestDecade: PropTypes.number.isRequired
+        newestDecade: PropTypes.number.isRequired,
+        genres: PropTypes.array.isRequired
     }
 
     state = {
@@ -30,42 +31,43 @@ export class FilmList extends Component {
     }   
 
     render() {
-        let filteredFilms = this.state.films;
-        if (!this.props.watched){
+        let filteredFilms = this.state.films.filter(film => 
+            film.runtime <= this.props.runtime
+            && film.runtime <= this.props.runtime
+            && (film.year >= this.props.oldestDecade && film.year <= this.props.newestDecade + 9) 
+        )
+
+        if (this.props.hideWatched){
             filteredFilms = filteredFilms.filter(film => 
-                film.watched === this.props.watched 
-                && film.runtime <= this.props.runtime
-                && (film.year >= this.props.oldestDecade && film.year <= this.props.newestDecade + 9)                     
-                );
-        } else{
+                film.watched === !this.props.hideWatched 
+            )               
+        } 
+
+        if (this.props.genres.length){
             filteredFilms = filteredFilms.filter(film => 
-                film.runtime <= this.props.runtime
-                && film.runtime <= this.props.runtime
-                && (film.year >= this.props.oldestDecade && film.year <= this.props.newestDecade + 9) 
-                );
+                film.genres.some(g => this.props.genres.includes(g))
+            )
         }
 
         return (
             <Fragment>
                 <div className="row">
                     <div className="col-md-12">
-                        {filteredFilms.length && 
-                            <div id="results">
+                        <div id="results">
                             {filteredFilms.length > 1 && 
                             <span>
                                 There are <strong>{filteredFilms.length}</strong> matches.
-                            </span>}
-                            {filteredFilms.length === 1 &&
-                            <span>
-                                There is <strong>{filteredFilms.length}</strong> match.
-                            </span>}
-                            {!filteredFilms.length &&
-                            <span>
-                                Sorry, there aren't any matches.
                             </span>
                             }
-                            </div>
-                        }
+                            {filteredFilms.length === 1 &&
+                            <span>
+                                There is <strong>1</strong> match.
+                            </span>
+                            }
+                            {!filteredFilms.length && 
+                            <span>Sorry, there aren't any matches.</span>
+                            }
+                        </div>
                     </div>
                 </div>
                 <div className="row">

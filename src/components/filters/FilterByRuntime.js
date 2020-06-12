@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-export class FilterByRuntime extends Component {
+class FilterByRuntime extends Component {
     static propTypes = {
         handleFilterByRuntime: PropTypes.func.isRequired
     }

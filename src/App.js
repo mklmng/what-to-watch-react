@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import Header from './components/layout/Header';
 import FilterByWatched from './components/filters/FilterByWatched';
 import FilterByRuntime from './components/filters/FilterByRuntime';
-import FilterbyDecade from './components/filters/FilterByDecade';
+import FilterByDecade from './components/filters/FilterByDecade';
+import FilterByGenre from './components/filters/FilterByGenre';
 import FilmList from './components/films/FilmList';
+import Footer from './components/layout/Footer';
 
 import './styles/styles.css';
 
@@ -15,14 +17,14 @@ class App extends Component {
         runtime: 9999,
         oldestDecade: 1960,
         newestDecade: 2010,
-        watched: true,
-        genres: [],
+        hideWatched: false,
+        genres: []
     };
   }
 
-  switchTheme = () => this.setState({nightTheme: !this.state.nightTheme }); 
-  handleFilterByWatched = () => this.setState({ watched: !this.state.watched });
-  handleFilterByRuntime = (e) => this.setState({ runtime:  parseInt(e.target.value) }); 
+  switchTheme = () => this.setState({nightTheme: !this.state.nightTheme });  
+  handleFilterByWatched = () => this.setState({ hideWatched: !this.state.watched });
+  handleFilterByRuntime = e => this.setState({ runtime: parseInt(e.target.value) }); 
   handleFilterByDecade = (e) => {
     const decade = parseInt(e.target.value);
     const selectedIndex = e.target.selectedIndex;
@@ -54,6 +56,21 @@ class App extends Component {
       }
     }
   }   
+
+  handleFilterByGenre = (e) => {
+    let genre = e.target.value;
+
+    if (!this.state.genres.includes(genre)){
+      this.setState({
+        genres: [...this.state.genres, genre]
+      })
+    } else {
+        let genres = [...this.state.genres];
+        let index = genres.indexOf(e.target.value);
+        genres.splice(index, 1);
+        this.setState({ genres: genres })
+    }
+  }
   
   render(){
     return (
@@ -71,14 +88,17 @@ class App extends Component {
         <div className="container">
           <FilterByWatched handleFilterByWatched={this.handleFilterByWatched} />
           <FilterByRuntime handleFilterByRuntime={this.handleFilterByRuntime} />
-          <FilterbyDecade handleFilterByDecade={this.handleFilterByDecade} />
+          <FilterByGenre handleFilterByGenre={this.handleFilterByGenre} />
+          <FilterByDecade handleFilterByDecade={this.handleFilterByDecade} />
           <FilmList 
-            watched={this.state.watched}
+            hideWatched={this.state.hideWatched}
             runtime={this.state.runtime}
             oldestDecade={this.state.oldestDecade}
             newestDecade={this.state.newestDecade}
+            genres={this.state.genres}
             />
         </div>
+        <Footer />
       </div>
     );
   }
