@@ -1,10 +1,13 @@
 import React, { Component } from "react";
+import Dropdown from '../layout/Dropdown';
 import PropTypes from "prop-types";
 
 class FilterByDecade extends Component {
   static propTypes = {
     handleFilterByDecade: PropTypes.func.isRequired,
   };
+
+  state = { decades: [ 1960, 1970, 1980, 1990, 2000 , 2010 ] }
 
   render() {
     return (
@@ -15,21 +18,25 @@ class FilterByDecade extends Component {
             <div className="decades-filters">
               <label htmlFor="oldest-decade" className="decades-filters__label">From</label>
               <select name="decades" id="oldest-decade" defaultValue="1960" onChange={(e) => this.props.handleFilterByDecade(e)}>
-                <option value="1960">1960s</option>
-                <option value="1970">1970s</option>
-                <option value="1980">1980s</option>
-                <option value="1990">1990s</option>
-                <option value="2000">2000s</option>
-                <option value="2010">2010s</option>
+                {this.state.decades.map((d, index) => {
+                  return (
+                      <Dropdown key={index}
+                          decade={d}
+                      />
+                      )                            
+                  })
+                }  
               </select>
               <label htmlFor="newest-decade" className="decades-filters__label">To</label>
               <select name="decades" id="newest-decade" defaultValue="2010" onChange={(e) => this.props.handleFilterByDecade(e)}>
-                <option value="1960">1960s</option>
-                <option value="1970">1970s</option>
-                <option value="1980">1980s</option>
-                <option value="1990">1990s</option>
-                <option value="2000">2000s</option>
-                <option value="2010">2010s</option>
+                {this.state.decades.map((d, index) => {
+                    return (
+                        <Dropdown key={index}
+                            decade={d}
+                        />
+                        )                            
+                    })
+                }
               </select>
               </div>
           </div>

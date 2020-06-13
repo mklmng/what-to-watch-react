@@ -1,9 +1,40 @@
 import React, { Component } from 'react'
+import RadioButton from '../layout/RadioButton'
 import PropTypes from 'prop-types'
 
 class FilterByRuntime extends Component {
     static propTypes = {
         handleFilterByRuntime: PropTypes.func.isRequired
+    }
+
+    state = {
+        runtimes: [
+            {
+                runtime: "90",
+                runtimeId: "runtime-90",
+                runtimeText: "1h 30min"
+            },
+            {
+                runtime: "120",
+                runtimeId: "runtime-120",
+                runtimeText: "2h"
+            },
+            {
+                runtime: "150",
+                runtimeId: "runtime-150",
+                runtimeText: "2h 30min"
+            },
+            {
+                runtime: "180",
+                runtimeId: "runtime-180",
+                runtimeText: "3h"
+            },
+            {
+                runtime: "9999",
+                runtimeId: "runtime-all",
+                runtimeText: "All the time in world"
+            }
+        ]
     }
 
     render() {
@@ -14,52 +45,15 @@ class FilterByRuntime extends Component {
                         <div id="runtimes">
                             <h2 className="filter-header">How much time do you have?</h2>	
                                 <div id="runtimes-filters" onChange={(e) => this.props.handleFilterByRuntime(e)}>
-                                    <div className="runtime-filter">
-                                        <input 
-                                            type="radio" 
-                                            className="film-times" 
-                                            name="runtime" 
-                                            id="runtime-90"
-                                            value="90"
-                                                />
-                                        <label htmlFor="runtime-90">1h 30min</label>
-                                    </div><div className="runtime-filter">
-                                        <input 
-                                            type="radio" 
-                                            className="film-times" 
-                                            name="runtime" 
-                                            id="runtime-120"
-                                            value="120"
-                                                />
-                                            <label htmlFor="runtime-120">2h</label>
-                                    </div><div className="runtime-filter">
-                                        <input 
-                                            type="radio" 
-                                            className="film-times" 
-                                            name="runtime" 
-                                            id="runtime-150"
-                                            value="150"
-                                                />
-                                        <label htmlFor="runtime-150">2h 30min</label>
-                                    </div><div className="runtime-filter">
-                                        <input 
-                                            type="radio" 
-                                            className="film-times" 
-                                            name="runtime" 
-                                            id="runtime-180"
-                                            value="180"
-                                                />
-                                        <label htmlFor="runtime-180">3h</label>
-                                    </div><div className="runtime-filter">
-                                        <input 
-                                            type="radio" 
-                                            className="film-times" 
-                                            name="runtime" 
-                                            id="runtime-all"
-                                            value="9999"
-                                        />
-                                        <label htmlFor="runtime-all">All the time in world</label>
-                                    </div>    
+                                    {this.state.runtimes.map((r, index) => {
+                                        return (
+                                            <RadioButton key={index}
+                                                runtime={r.runtime}
+                                                runtimeId={r.runtimeId}
+                                                runtimeText={r.runtimeText}
+                                            />
+                                            )                            
+                                    })}  
                                 </div>
                             </div>
                         </div>
