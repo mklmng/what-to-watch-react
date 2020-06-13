@@ -10,46 +10,20 @@ class FilterByGenre extends Component {
     state = {
         expanded: false,
         mainGenres: [ "action" , "comedy", "drama" , "horror", "sci-fi"],
-        extraGenres: [
-            {
-                genre: "adventure"
-            },
-            {
-                genre: "animation"
-            },
-            {
-                genre: "biography"
-            },
-            {
-                genre: "crime"
-            },
-            {   
-                genre: "documentary"
-            },
-            {
-                genre: "fantasy"
-            },
-            {
-                genre: "history"
-            },
-            {
-                genre: "music"
-            },
-            {
-                genre: "musical"
-            },
-            {
-                genre: "romance"
-            },
-            {
-                genre: "sport"
-            },
-            {
-                genre: "thriller"
-            },
-            {
-                genre: "war"
-            }
+        extraGenres: [ 
+            "adventure", 
+            "animation",         
+            "biography",
+            "crime",
+            "documentary",
+            "fantasy",
+            "history",
+            "music",
+            "musical",
+            "romance",
+            "sport",
+            "thriller",
+            "war"
         ]
     }
 
