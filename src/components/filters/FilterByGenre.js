@@ -50,7 +50,7 @@ class FilterByGenre extends Component {
                         <div id="extra-genres" onChange={(e) => this.props.handleFilterByGenre(e)}>
                             {this.state.extraGenres.map((g, index) => {
                                 return (
-                                    <Checkbox key={index} genre={g.genre} />
+                                    <Checkbox key={index} genre={g} />
                                 )                            
                                 })
                             }
