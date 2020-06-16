@@ -4,32 +4,17 @@ import PropTypes from 'prop-types';
 
 class FilterByGenre extends Component {
     static propTypes = {
-        handleFilterByGenre: PropTypes.func.isRequired
+        handleFilterByGenre: PropTypes.func.isRequired,
+        mainGenres: PropTypes.array.isRequired,
+        extraGenres: PropTypes.array.isRequired
     }
 
     state = {
-        expanded: false,
-        mainGenres: [ "action" , "comedy", "drama" , "horror", "sci-fi"],
-        extraGenres: [ 
-            "adventure", 
-            "animation",         
-            "biography",
-            "crime",
-            "documentary",
-            "fantasy",
-            "history",
-            "music",
-            "musical",
-            "romance",
-            "sport",
-            "thriller",
-            "war"
-        ]
+        expanded: false
     }
 
     render() {
         const toggleExpanded = () => this.setState({ expanded: !this.state.expanded });
-
 
         return (
             <div className="row">
@@ -37,7 +22,7 @@ class FilterByGenre extends Component {
                     <div id="filter-genres" className="film-filter">
                         <h2 className="filter-header">What genres do you like?</h2>	
                         <div id="main-genres" onChange={(e) => this.props.handleFilterByGenre(e)}>
-                            {this.state.mainGenres.map((g, index) => {
+                            {this.props.mainGenres.map((g, index) => {
                             return (
                                 <Checkbox key={index} genre={g} />
                             )                            
@@ -48,7 +33,7 @@ class FilterByGenre extends Component {
                             See all genres
                         </span>
                         <div id="extra-genres" onChange={(e) => this.props.handleFilterByGenre(e)}>
-                            {this.state.extraGenres.map((g, index) => {
+                            {this.props.extraGenres.map((g, index) => {
                                 return (
                                     <Checkbox key={index} genre={g} />
                                 )                            

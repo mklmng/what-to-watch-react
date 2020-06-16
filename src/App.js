@@ -1,10 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import axios from 'axios';
+import FilmOverlay from './components/films/FilmOverlay';
 import Header from './components/layout/Header';
 import FilterByWatched from './components/filters/FilterByWatched';
 import FilterByRuntime from './components/filters/FilterByRuntime';
 import FilterByDecade from './components/filters/FilterByDecade';
 import FilterByGenre from './components/filters/FilterByGenre';
-import FilmList from './components/films/FilmList';
+import Spinner from 'react-bootstrap/Spinner';
+import FilmCard from './components/films/FilmCard';
 import Footer from './components/layout/Footer';
 
 import './styles/styles.css';
@@ -14,13 +17,55 @@ class App extends Component {
     super(props);
     this.state = { 
         nightTheme: false,
-        runtime: 9999,
-        oldestDecade: 1960,
-        newestDecade: 2010,
+        runtime: 0,
+        oldestDecade: 0,
+        newestDecade: 0,
         hideWatched: false,
-        genres: []
+        genres: [],
+        mainGenres: ["action" , "comedy" , "drama" , "horror" , "sci-fi"],
+        extraGenres: [],
+        films: [],
+        loading: true,
+        overlay: false,
+        trailer: ""
     };
   }
+
+  componentDidMount() {
+    this.setState({ loading: true }, () => {
+        axios.get('https://gist.githubusercontent.com/mklmng/fa894dc9c86dfed34e45063adcf1b73e/raw/eb77422572bbf7bee0ebaf86c02eb1fe99730195/Films.json')
+        .then(response => {
+            let maxRuntime = parseInt(Math.max.apply(0, response.data.map(film => film.runtime)));  
+            let filmYears = response.data.map(film => film.year);
+            let oldestDecade = Math.floor(Math.min.apply(0, filmYears) / 10) * 10;
+            let newestDecade = Math.floor(Math.max.apply(0, filmYears) / 10) * 10;
+            let extraGenres = [...this.state.extraGenres];
+
+            if (!extraGenres.length){
+              response.data.forEach(film => {
+                film.genres.forEach(genre => {
+                  if (!extraGenres.includes(genre) && !this.state.mainGenres.includes(genre)){
+                    extraGenres.push(genre);
+                  }
+                });
+              })
+              extraGenres.sort();
+            }          
+
+            this.setState({ 
+              loading: false,
+              runtime: maxRuntime,
+              oldestDecade: oldestDecade,
+              newestDecade: newestDecade,
+              extraGenres: extraGenres,
+              films: response.data
+            })
+        })
+        .catch(error => {
+            this.setState({ loading: false })
+        });
+    });
+  }   
 
   switchTheme = () => this.setState({nightTheme: !this.state.nightTheme });  
   handleFilterByWatched = () => this.setState({ hideWatched: !this.state.watched });
@@ -71,8 +116,30 @@ class App extends Component {
         this.setState({ genres: genres })
     }
   }
+
+  handleToggleOverlay = (trailer) => {
+      this.setState({ overlay: !this.state.overlay, trailer: trailer })
+  }
   
   render(){
+    let filteredFilms = this.state.films.filter(film => 
+      film.runtime <= this.state.runtime
+      && film.runtime <= this.state.runtime
+      && (film.year >= this.state.oldestDecade && film.year <= this.state.newestDecade + 9) 
+    )
+
+    if (this.state.hideWatched){
+        filteredFilms = filteredFilms.filter(film => 
+            film.watched === !this.state.hideWatched 
+        )               
+    } 
+
+    if (this.state.genres.length){
+        filteredFilms = filteredFilms.filter(film => 
+            film.genres.some(g => this.state.genres.includes(g))
+        )
+    }
+
     return (
       <div id="full-wrapper" className={`${this.state.nightTheme && 'dark'}`}>
         <link
@@ -81,22 +148,70 @@ class App extends Component {
             integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
             crossOrigin="anonymous"
           />
+
+        {this.state.overlay &&  <FilmOverlay handleToggleOverlay={this.state.handleToggleOverlay} trailer={this.state.trailer} /> }
+
         <Header
           nightTheme={this.state.nightTheme}
           switchTheme={this.switchTheme}
         />
         <div className="container">
-          <FilterByWatched handleFilterByWatched={this.handleFilterByWatched} />
-          <FilterByRuntime handleFilterByRuntime={this.handleFilterByRuntime} />
-          <FilterByGenre handleFilterByGenre={this.handleFilterByGenre} />
-          <FilterByDecade handleFilterByDecade={this.handleFilterByDecade} />
-          <FilmList 
-            hideWatched={this.state.hideWatched}
-            runtime={this.state.runtime}
-            oldestDecade={this.state.oldestDecade}
-            newestDecade={this.state.newestDecade}
-            genres={this.state.genres}
+          {(this.state.films.length && this.state.extraGenres.length) && 
+          <Fragment>
+            <FilterByWatched handleFilterByWatched={this.handleFilterByWatched} />
+            <FilterByRuntime handleFilterByRuntime={this.handleFilterByRuntime} />
+            <FilterByGenre 
+              handleFilterByGenre={this.handleFilterByGenre} 
+              mainGenres={this.state.mainGenres}
+              extraGenres={this.state.extraGenres}
             />
+            <FilterByDecade handleFilterByDecade={this.handleFilterByDecade} />  
+          </Fragment>
+          }
+
+          <div className="row">
+              <div className="col-md-12">
+                  <div id="results">
+                      {filteredFilms.length > 1 && 
+                      <span>
+                          There are <strong>{filteredFilms.length}</strong> matches.
+                      </span>
+                      }
+                      {filteredFilms.length === 1 &&
+                      <span>
+                          There is <strong>1</strong> match.
+                      </span>
+                      }
+                      {!filteredFilms.length && 
+                      <span>Sorry, there aren't any matches.</span>
+                      }
+                  </div>
+              </div>
+          </div>
+          <div className="row">
+              {this.state.loading && 
+                <Spinner animation="border" role="status">
+                  <span className="sr-only">Loading...</span>
+                </Spinner>
+              }
+              {filteredFilms.map((film) => {
+                return (
+                  <FilmCard 
+                      key={film.id}
+                      id={film.id}
+                      title={film.title}
+                      year={film.year}
+                      director={film.director}
+                      genres={film.genres}
+                      runtime={film.runtime}
+                      whereToWatch={film.whereToWatch}
+                      trailer={film.trailer}
+                      overlay={this.state.overlay}
+                      handleToggleOverlay={this.handleToggleOverlay}
+                  />
+                )                            
+              })}
+          </div>
         </div>
         <Footer />
       </div>
