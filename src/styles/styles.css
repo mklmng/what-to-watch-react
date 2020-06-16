@@ -504,14 +504,15 @@ label[for="theme"]{
 }
 
 .dark .btn-outline-secondary{
-    background: #ccc;
-    border-color: transparent;
+    background: #545b62;
+    border-color: #FFF;
     box-shadow: none;
-    color: #000;
+    color: #FFF;
 }
 
 .dark .btn-outline-secondary:hover{
-    border-color: transparent;
+    color: #000;
+    background: #fff;
     box-shadow: none;
 }
 
