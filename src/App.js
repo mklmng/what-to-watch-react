@@ -27,10 +27,13 @@ class App extends Component {
         films: [],
         loading: true,
         overlay: false,
-        trailer: ""
+        trailer: "",
+        goToFilms: false
     };
-  }
 
+    this.resultsRef = React.createRef();  
+  }
+  
   componentDidMount() {
     this.setState({ loading: true }, () => {
         axios.get('https://gist.githubusercontent.com/mklmng/fa894dc9c86dfed34e45063adcf1b73e/raw/eb77422572bbf7bee0ebaf86c02eb1fe99730195/Films.json')
@@ -68,6 +71,7 @@ class App extends Component {
   }   
 
   switchTheme = () => this.setState({nightTheme: !this.state.nightTheme });  
+
   handleFilterByWatched = () => this.setState({ hideWatched: !this.state.watched });
   handleFilterByRuntime = e => this.setState({ runtime: parseInt(e.target.value) }); 
   handleFilterByDecade = (e) => {
@@ -101,6 +105,17 @@ class App extends Component {
       }
     }
   }   
+
+  scrollToSection = (ref) => {
+    this.setState({ goToFilms: !this.state.goToFilms });
+
+    if (this.state.goToFilms){
+        window.scrollTo(0,0)
+      } else {
+        let elementCoordinates = ref.current.getBoundingClientRect();
+        window.scrollTo(0, Math.round(elementCoordinates.y));
+    }
+  }
 
   handleFilterByGenre = (e) => {
     let genre = e.target.value;
@@ -149,7 +164,7 @@ class App extends Component {
             crossOrigin="anonymous"
           />
 
-        {this.state.overlay &&  <FilmOverlay handleToggleOverlay={this.state.handleToggleOverlay} trailer={this.state.trailer} /> }
+        {this.state.overlay &&  <FilmOverlay handleToggleOverlay={this.handleToggleOverlay} trailer={this.state.trailer} /> }
 
         <Header
           nightTheme={this.state.nightTheme}
@@ -171,20 +186,22 @@ class App extends Component {
 
           <div className="row">
               <div className="col-md-12">
-                  <div id="results">
+                  <div id="results" ref={this.resultsRef}  onClick={() => this.scrollToSection(this.resultsRef)}>
+                    <p className={`film-results ${this.state.goToFilms ? "return" : ""}`}>
                       {filteredFilms.length > 1 && 
-                      <span>
-                          There are <strong>{filteredFilms.length}</strong> matches.
-                      </span>
-                      }
-                      {filteredFilms.length === 1 &&
-                      <span>
-                          There is <strong>1</strong> match.
-                      </span>
-                      }
-                      {!filteredFilms.length && 
-                      <span>Sorry, there aren't any matches.</span>
-                      }
+                        <span>
+                            There are <strong>{filteredFilms.length}</strong> matches.
+                        </span>
+                        }
+                        {filteredFilms.length === 1 &&
+                        <span>
+                            There is <strong>1</strong> match.
+                        </span>
+                        }
+                        {!filteredFilms.length && 
+                        <span>Sorry, there aren't any matches.</span>
+                        }
+                    </p>
                   </div>
               </div>
           </div>

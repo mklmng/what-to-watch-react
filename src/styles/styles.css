@@ -87,7 +87,7 @@ label[for="theme"]{
     border-bottom: 1px solid #FF0;
 }
 
-.film-filter label{
+.space-right-1{
     padding-right: 1rem;
 }
 
@@ -480,7 +480,7 @@ label[for="theme"]{
     border: 1px solid #FF0;
 }
 
-.dark #results{
+.dark #results, .dark .cta-expand{
     background: rgb(0,0,0); /* Old browsers */
     background: -moz-linear-gradient(left,  rgba(0,0,0,1) 0%, rgba(68,68,68,1) 40%, rgba(68,68,68,1) 80%, rgba(0,0,0,1) 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(68,68,68,1) 40%,rgba(68,68,68,1) 80%,rgba(0,0,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
@@ -529,7 +529,7 @@ label[for="theme"]{
 	right: 0;
 	bottom: 0;
     background: rgba(0,0,0,0.8);
-    z-index: 1;
+    z-index: 2;
 }
 
 .overlay__wrapper{
