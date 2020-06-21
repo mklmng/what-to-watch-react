@@ -14,9 +14,10 @@ body.no-scroll{
     overflow: hidden;
 }
 
-.container{
-    background: #FFF;
+body .container{
+    padding: 0;
 }
+
 .dark .container{
     background: #000;
 }
@@ -278,18 +279,15 @@ label[for="theme"]{
     border-top: 1px solid #FF0;
 }
 
-.results{
-    padding: 0.5rem;
-    text-align: center;
-    background: #6D6D6D;
-    color: #FFF;
-}
-
 #results{
     background: #000;
     color:#FFF;
-    padding: 0.75em 0;
+    padding: 0;
     border-bottom: 0;
+}
+
+.film-results strong{
+    color: #FF0;
 }
 
 .film-results::after{
@@ -394,6 +392,14 @@ label[for="theme"]{
     padding-bottom: 56.25%;
 }
 
+.card-text{
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+.card-text:last-of-type{
+    margin-bottom: 1rem;
+}
+
 .film-runtime{
     padding-bottom: 1.6rem;
 }
@@ -457,6 +463,20 @@ label[for="theme"]{
     padding-bottom: 1rem;
 }
 
+#filter-watched .btn-outline-secondary{
+    background: #CCC;
+    color: #000;
+}
+
+.btn-outline-secondary.btn-vod{
+    background: #F00;
+    color: #FFF;
+}
+.btn-outline-secondary.btn-trailer{
+    background: #000;
+    color: #FFF;
+}
+
 .dark .filter-header, .dark .genre-selector label, .dark .film-card p{
     color: #FF0;
 }
@@ -480,7 +500,7 @@ label[for="theme"]{
     border: 1px solid #FF0;
 }
 
-.dark #results, .dark .cta-expand{
+.dark #results, .dark .cta-expand, .dark .row.product-list{
     background: rgb(0,0,0); /* Old browsers */
     background: -moz-linear-gradient(left,  rgba(0,0,0,1) 0%, rgba(68,68,68,1) 40%, rgba(68,68,68,1) 80%, rgba(0,0,0,1) 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(68,68,68,1) 40%,rgba(68,68,68,1) 80%,rgba(0,0,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
@@ -488,6 +508,13 @@ label[for="theme"]{
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=1 ); /* IE6-9 */
     color: #FFF;
 }
+
+.dark #results{
+    padding-top: 0;
+    padding-bottom: 0;
+    border-top: 1px solid #FF0;
+}
+
 .dark #results p strong{
     color: #FF0;
 }
@@ -504,16 +531,23 @@ label[for="theme"]{
 }
 
 .dark .btn-outline-secondary{
-    background: #545b62;
     border-color: #FFF;
     box-shadow: none;
-    color: #FFF;
 }
 
 .dark .btn-outline-secondary:hover{
+   box-shadow: none;
+}
+
+.dark .btn-trailer{
+    background: #FFF;
     color: #000;
-    background: #fff;
-    box-shadow: none;
+}
+
+.dark .btn-trailer:hover{
+    background: #000;
+    color: #FF0;
+    border: 1px solid #FFF;
 }
 
 [data-trailer=""] { /* We only show the option of watch trailer if the trailer is available */
@@ -645,6 +679,15 @@ footer small{
         margin-left: -15px;
     }
 
+    #results span{
+        font-size: 1rem;
+    }
+
+    .row.product-list{
+        background: #000;
+        margin: 0 -0.9375rem;
+    }
+
     #films li { 
         border: 1px solid #CCC;
         display: inline-block;
@@ -669,8 +712,12 @@ footer small{
 
 @media screen and (min-width: 1024px) {
     #runtimes-filters{
-        width: 80%;
+        width: 100%;
         margin: 0 auto;
+    }
+
+    .runtime-filter, .runtime-filter:last-child{
+        width: calc(20% - 0.5rem);
     }
     .film-trailer, .watch-film-cta{
         width: 11rem;

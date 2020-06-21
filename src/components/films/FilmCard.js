@@ -48,8 +48,8 @@ class FilmCard extends Component {
                         </p>
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="btn-group">
-                                <a href={`https://www.justwatch.com/uk/movie/${this.props.whereToWatch}`} className="btn btn-sm btn-outline-secondary">Watch Film</a>
-                                <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => this.props.handleToggleOverlay(this.props.trailer)}>Watch trailer</button>
+                                <a href={`https://www.justwatch.com/uk/movie/${this.props.whereToWatch}`} className="btn btn-sm btn-outline-secondary btn-vod">Watch Film</a>
+                                <button type="button" className="btn btn-sm btn-outline-secondary btn-trailer" onClick={() => this.props.handleToggleOverlay(this.props.trailer)}>Watch trailer</button>
                             </div>
                         </div>
                     </div>

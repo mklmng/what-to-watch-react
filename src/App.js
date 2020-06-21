@@ -72,7 +72,7 @@ class App extends Component {
 
   switchTheme = () => this.setState({nightTheme: !this.state.nightTheme });  
 
-  handleFilterByWatched = () => this.setState({ hideWatched: !this.state.watched });
+  handleFilterByWatched = () => this.setState({ hideWatched: !this.state.hideWatched });
   handleFilterByRuntime = e => this.setState({ runtime: parseInt(e.target.value) }); 
   handleFilterByDecade = (e) => {
     const decade = parseInt(e.target.value);
@@ -155,6 +155,11 @@ class App extends Component {
         )
     }
 
+    if (this.state.hideWatched){
+      filteredFilms = filteredFilms.filter(f => !f.watched);
+      console.log("hide watched");
+    }
+
     return (
       <div id="full-wrapper" className={`${this.state.nightTheme && 'dark'}`}>
         <link
@@ -171,9 +176,11 @@ class App extends Component {
           switchTheme={this.switchTheme}
         />
         <div className="container">
-          {(this.state.films.length && this.state.extraGenres.length) && 
           <Fragment>
-            <FilterByWatched handleFilterByWatched={this.handleFilterByWatched} />
+            <FilterByWatched 
+              handleFilterByWatched={this.handleFilterByWatched}
+              hideWatched={this.state.hideWatched}  
+            />
             <FilterByRuntime handleFilterByRuntime={this.handleFilterByRuntime} />
             <FilterByGenre 
               handleFilterByGenre={this.handleFilterByGenre} 
@@ -182,7 +189,6 @@ class App extends Component {
             />
             <FilterByDecade handleFilterByDecade={this.handleFilterByDecade} />  
           </Fragment>
-          }
 
           <div className="row">
               <div className="col-md-12">
@@ -205,7 +211,7 @@ class App extends Component {
                   </div>
               </div>
           </div>
-          <div className="row">
+          <div className="row product-list">
               {this.state.loading && 
                 <Spinner animation="border" role="status">
                   <span className="sr-only">Loading...</span>
