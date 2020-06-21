@@ -38,6 +38,6 @@ JavaScript (ES6), HTML5 and CSS3.
 In order to optimise the experience JavaScript was used to convert the runtimes from minutes to hours and minutes to make it easier for the users when reading the film cards.
 The arrays that contain the extraGenres and decades are dynamically generated based on the information obtained from the JSON file thus ensuring they're always up to date.
 
-# Additional features
-- Add a connection to a database that allow the users to add or delete films from it.
+# Planned Additional Features
+- Add a connection to a database through an API that allow the users to add or delete films from it.
 - Add a "add to watchlist" or "mark as watched" functionality to the each film card.
