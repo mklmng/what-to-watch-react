@@ -1,68 +1,43 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# What to Watch React
+This is the React version of the [What to Watch](https://mklmng.github.io/what-to-watch-vjs/). project a small tool to help the users choosing what film to watch based on various filters: runtime, genre and decade. All these genres can be combined if the users want to.
 
-In the project directory, you can run:
+# Dependencies
+At this stage this project uses the following dependencies not included on React-Create-App:
+- [react-bootstrap](https://www.npmjs.com/package/react-bootstrap)
+- [axios](https://www.npmjs.com/package/axios) 
 
-### `yarn start`
+# User Journey
+All the filters (except the expanded genres) are available to the users from the beginning. The order is as follows, watched, runtime, genres and decades.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Filter by Watched
+It allows the users to hide films where the watched property is set true, on first load all films are visible so toggle this filter will hide the watched films.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+# Filter by Runtime
+It allows the users to filter films based on different runtimes: 1h 30 minutes, 2h, 2h 30 minutes, 3h or "All the time in the world". By default it's set to "All the time in the world" which is actually the highest runtime of all the films on the database, calculated on the JavaSCript file.
+Clicking on any of the other filters will show films when the runtime is lesser or equal than the selected option. E.g.: If a film is 91 minutes long you'll need to select 2h to see it.
 
-### `yarn test`
+# Filter by Genre
+It allows the users the filter films based on their favourite genres, the ones I considered more common: action, comedy, drama, horror and sci-fi are visible from the start and all the rest are visible when the users click on 
+"See all genres". The way the filter works is that the films need to have at least one of the selected genres so they don't to have all the selected genres. E.g.: if the users select action and comedy the films can have either action, comedy or both.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Filter by Decade
+It allows the users to narrow the results to a determined time frame, e.g.: dramas from 70s or horror films from 80s. The users need to defined to oldest and newest decade and all the films within that time frame that fulfill the rest of the filters will be shown.
 
-### `yarn build`
+# Results
+Every time the users interact with the filters the results area will update with the matches.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Night theme
+If the users are using the page in low light conditions they can toggle the night theme which would improve their experience.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+# Tools used
+JavaScript (ES6), HTML5 and CSS3. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# JavaScript
+In order to optimise the experience JavaScript was used to convert the runtimes from minutes to hours and minutes to make it easier for the users when reading the film cards.
+The arrays that contain the extraGenres and decades are dynamically generated based on the information obtained from the JSON file thus ensuring they're always up to date.
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+# Planned Additional Features
+- Add a connection to a database through an API that allow the users to add or delete films from it.
+- Add a "add to watchlist" or "mark as watched" functionality to the each film card.
