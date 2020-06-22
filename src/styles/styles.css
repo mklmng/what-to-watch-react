@@ -18,13 +18,11 @@ body .container{
     padding: 0;
 }
 
-.dark .container{
-    background: #000;
-}
-
-header{
+#main-header{
     background: #000;
     position: relative;
+    text-align: center;
+    margin-bottom: 1rem;
 }
 
 .header-main{
@@ -34,6 +32,8 @@ header{
     color: #FFF;
     margin: 0;
     padding: 0;
+    display: inline;
+    border-bottom: 1px solid #FFF;
 }
 .header-main span{
     color: #F00
@@ -47,6 +47,8 @@ header{
     transform: scaleX(-1);
 }
 
+.btn.btn-theme{display: inline-block;}
+
 #theme-switcher{
     display: block;
     text-align: center;
@@ -55,18 +57,17 @@ header{
     padding: 0.5rem 0;
 }
 
-.dark #theme-switcher{
-    color: #FF0
+.main-filters{
+   color: #FFF;
+}
+.sub-header{
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 0;
 }
 
 label[for="theme"]{
     margin-right: 0.5rem;
-}
-
-.dark #filters{
-    border-left: 1px solid #FF0;
-    border-right: 1px solid #FF0;
-    border-bottom:1px solid #FF0;
 }
 
 #main-filter{
@@ -74,26 +75,14 @@ label[for="theme"]{
 }
 
 .film-filter{
-    background: #fff;
+    background: rgba(255,255,255,.3);
+    color: #FFF;
     padding: 1rem;
-    border-left: 1px solid #CCC;
-    border-right: 1px solid #CCC;
-    border-bottom: 1px solid #CCC;
-}
-
-.dark .film-filter{
-    background: #000;
-    border-left: 1px solid #FF0;
-    border-right: 1px solid #FF0;
-    border-bottom: 1px solid #FF0;
+    border: 1px solid #CCC;
 }
 
 .space-right-1{
     padding-right: 1rem;
-}
-
-.dark .film-filter label{
-    color: #FFF;
 }
 
 .centered{
@@ -107,11 +96,6 @@ label[for="theme"]{
     border-top: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
     text-align: center;
-}
-
-.dark .filter{
-    border-color: #FF0;
-    color:#FFF
 }
 
 #runtimes{
@@ -189,25 +173,10 @@ label[for="theme"]{
     cursor: pointer;
 }
 
-.dark .film-times::before{
-    background: #fff;
-}
-
-.dark .film-times:checked::before{
-    background: #FF0;
-    color: #000;
-}
-
-.dark .film-times + label{
-    color: #FFF;
-}
-
 #filter-genres{
     padding-left: 0;
     padding-right: 0;
     padding-bottom: 0;
-    border-left: 0;
-    border-right: 0;
 }
 
 #genres,#filter-decades{
@@ -275,10 +244,6 @@ label[for="theme"]{
     text-align: center;
 }
 
-.dark #filter-watched.film-filter{
-    border-top: 1px solid #FF0;
-}
-
 #results{
     background: #000;
     color:#FFF;
@@ -331,7 +296,7 @@ label[for="theme"]{
 
 .genre-selector {
     text-align: center;
-    width: 50%;
+    width: 33.33%;
 }
 
 .decade-selector{
@@ -390,6 +355,12 @@ label[for="theme"]{
     width: 100%;
     height: 0;
     padding-bottom: 56.25%;
+}
+
+.card.film-card{
+    color: #FFF;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255,255,255, 0.4);
 }
 
 .card-text{
@@ -463,6 +434,15 @@ label[for="theme"]{
     padding-bottom: 1rem;
 }
 
+.btn.btn-filter{
+    background: #CCC;
+    width: 33.33%;
+}
+
+.btn.btn-theme{
+    background: #CCC;
+}
+
 #filter-watched .btn-outline-secondary{
     background: #CCC;
     color: #000;
@@ -475,79 +455,6 @@ label[for="theme"]{
 .btn-outline-secondary.btn-trailer{
     background: #000;
     color: #FFF;
-}
-
-.dark .filter-header, .dark .genre-selector label, .dark .film-card p{
-    color: #FF0;
-}
-
-.dark #oldest-decade,.dark #newest-decade, .dark .film-card p span{
-    color: #FFF;
-}
-
-.dark #oldest-decade,.dark #newest-decade{
-    border: 0;
-    background: #FFF;
-    color: #000;
-}
-
-.dark #genres{
-    border-top: 1px solid #FF0;
-    border-bottom: 1px solid #FF0;
-}
-
-.dark .watch-film-cta{
-    border: 1px solid #FF0;
-}
-
-.dark #results, .dark .cta-expand, .dark .row.product-list{
-    background: rgb(0,0,0); /* Old browsers */
-    background: -moz-linear-gradient(left,  rgba(0,0,0,1) 0%, rgba(68,68,68,1) 40%, rgba(68,68,68,1) 80%, rgba(0,0,0,1) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(68,68,68,1) 40%,rgba(68,68,68,1) 80%,rgba(0,0,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right,  rgba(0,0,0,1) 0%,rgba(68,68,68,1) 40%,rgba(68,68,68,1) 80%,rgba(0,0,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=1 ); /* IE6-9 */
-    color: #FFF;
-}
-
-.dark #results{
-    padding-top: 0;
-    padding-bottom: 0;
-    border-top: 1px solid #FF0;
-}
-
-.dark #results p strong{
-    color: #FF0;
-}
-
-.dark .card-body{
-    background: #232323;
-}
-
-.dark .card-body{
-    color: #FFF;
-}
-.dark .card-body span{
-    color: #FF0;
-}
-
-.dark .btn-outline-secondary{
-    border-color: #FFF;
-    box-shadow: none;
-}
-
-.dark .btn-outline-secondary:hover{
-   box-shadow: none;
-}
-
-.dark .btn-trailer{
-    background: #FFF;
-    color: #000;
-}
-
-.dark .btn-trailer:hover{
-    background: #000;
-    color: #FF0;
-    border: 1px solid #FFF;
 }
 
 [data-trailer=""] { /* We only show the option of watch trailer if the trailer is available */
@@ -647,6 +554,14 @@ footer small{
 }
 
 @media screen and (min-width: 768px) {   
+    #main-header{
+        margin-bottom: 1.5rem
+    }
+
+    .sub-header{
+        text-align: left;
+    }
+
     .runtime-filter{
         width: calc(25% - 0.5rem);
     }

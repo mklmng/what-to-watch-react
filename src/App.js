@@ -2,10 +2,10 @@ import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import FilmOverlay from './components/films/FilmOverlay';
 import Header from './components/layout/Header';
-import FilterByWatched from './components/filters/FilterByWatched';
 import FilterByRuntime from './components/filters/FilterByRuntime';
 import FilterByDecade from './components/filters/FilterByDecade';
 import FilterByGenre from './components/filters/FilterByGenre';
+import FilterByWatched from './components/filters/FilterByWatched';
 import Spinner from 'react-bootstrap/Spinner';
 import FilmCard from './components/films/FilmCard';
 import Footer from './components/layout/Footer';
@@ -16,7 +16,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-        nightTheme: false,
         runtime: 0,
         oldestDecade: 0,
         newestDecade: 0,
@@ -28,7 +27,8 @@ class App extends Component {
         loading: true,
         overlay: false,
         trailer: "",
-        goToFilms: false
+        goToFilms: false,
+        activeFilter: ''
     };
 
     this.resultsRef = React.createRef();  
@@ -70,9 +70,8 @@ class App extends Component {
     });
   }   
 
-  switchTheme = () => this.setState({nightTheme: !this.state.nightTheme });  
-
-  handleFilterByWatched = () => this.setState({ hideWatched: !this.state.hideWatched });
+  showFilter = filterName => this.setState({ activeFilter: filterName });
+  handleFilterByWatched = () => this.setState(prevstate => ({ hideWatched: !prevstate.hideWatched}));
   handleFilterByRuntime = e => this.setState({ runtime: parseInt(e.target.value) }); 
   handleFilterByDecade = (e) => {
     const decade = parseInt(e.target.value);
@@ -137,31 +136,33 @@ class App extends Component {
   }
   
   render(){
-    let filteredFilms = this.state.films.filter(film => 
-      film.runtime <= this.state.runtime
-      && film.runtime <= this.state.runtime
-      && (film.year >= this.state.oldestDecade && film.year <= this.state.newestDecade + 9) 
+
+    const { films, runtime, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
+
+    let filteredFilms = films.filter(film => 
+      film.runtime <= runtime
+      && film.runtime <= runtime
+      && (film.year >= oldestDecade && film.year <= newestDecade + 9) 
     )
 
-    if (this.state.hideWatched){
+    if (hideWatched){
         filteredFilms = filteredFilms.filter(film => 
-            film.watched === !this.state.hideWatched 
+            film.watched === !hideWatched 
         )               
     } 
 
-    if (this.state.genres.length){
+    if (genres.length){
         filteredFilms = filteredFilms.filter(film => 
-            film.genres.some(g => this.state.genres.includes(g))
+            film.genres.some(g => genres.includes(g))
         )
     }
 
-    if (this.state.hideWatched){
+    if (hideWatched){
       filteredFilms = filteredFilms.filter(f => !f.watched);
-      console.log("hide watched");
     }
 
     return (
-      <div id="full-wrapper" className={`${this.state.nightTheme && 'dark'}`}>
+      <div id="full-wrapper">
         <link
             rel="stylesheet"
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -169,27 +170,48 @@ class App extends Component {
             crossOrigin="anonymous"
           />
 
-        {this.state.overlay &&  <FilmOverlay handleToggleOverlay={this.handleToggleOverlay} trailer={this.state.trailer} /> }
+        {overlay &&  <FilmOverlay handleToggleOverlay={this.handleToggleOverlay} trailer={trailer} /> }
 
-        <Header
-          nightTheme={this.state.nightTheme}
-          switchTheme={this.switchTheme}
-        />
+        <Header />
         <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="main-filters">
+                <h2 className="sub-header">Filters</h2>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col col-lg-4">
+            <button 
+                className={`btn btn-sm btn-lg-3 btn-outline-secondary btn-filter ${activeFilter === 'runtime' ? 'active' : ''}`}
+                onClick={() => this.showFilter('runtime')}
+            >Runtime</button><button
+              className={`btn btn-sm btn-lg-3 btn-outline-secondary btn-filter ${activeFilter === 'genre' ? 'active' : ''}`}
+              onClick={() => this.showFilter('genre')}
+            >Genre</button><button
+              className={`btn btn-sm btn-lg-3 btn-outline-secondary btn-filter ${activeFilter === 'decade' ? 'active' : ''}`}
+            onClick={() => this.showFilter('decade')}
+          >Decade</button>
+            </div>
+          </div>
           <Fragment>
+            {activeFilter === 'runtime' &&
+                <FilterByRuntime handleFilterByRuntime={this.handleFilterByRuntime} />
+            }
+            {activeFilter === 'genre' && 
+                <FilterByGenre 
+                  handleFilterByGenre={this.handleFilterByGenre} 
+                  mainGenres={mainGenres}
+                  extraGenres={extraGenres}
+              />
+            }
+            {activeFilter === 'decade' &&  <FilterByDecade handleFilterByDecade={this.handleFilterByDecade} />  }
             <FilterByWatched 
               handleFilterByWatched={this.handleFilterByWatched}
-              hideWatched={this.state.hideWatched}  
+              hideWatched={hideWatched}  
             />
-            <FilterByRuntime handleFilterByRuntime={this.handleFilterByRuntime} />
-            <FilterByGenre 
-              handleFilterByGenre={this.handleFilterByGenre} 
-              mainGenres={this.state.mainGenres}
-              extraGenres={this.state.extraGenres}
-            />
-            <FilterByDecade handleFilterByDecade={this.handleFilterByDecade} />  
           </Fragment>
-
           <div className="row">
               <div className="col-md-12">
                   <div id="results" ref={this.resultsRef}  onClick={() => this.scrollToSection(this.resultsRef)}>
