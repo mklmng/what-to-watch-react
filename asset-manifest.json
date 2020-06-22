@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/what-to-watch-react/static/css/main.03de22cc.chunk.css",
-    "main.js": "/what-to-watch-react/static/js/main.7b09253d.chunk.js",
-    "main.js.map": "/what-to-watch-react/static/js/main.7b09253d.chunk.js.map",
+    "main.css": "/what-to-watch-react/static/css/main.3ab65579.chunk.css",
+    "main.js": "/what-to-watch-react/static/js/main.f5860f44.chunk.js",
+    "main.js.map": "/what-to-watch-react/static/js/main.f5860f44.chunk.js.map",
     "runtime-main.js": "/what-to-watch-react/static/js/runtime-main.317e5aa5.js",
     "runtime-main.js.map": "/what-to-watch-react/static/js/runtime-main.317e5aa5.js.map",
     "static/js/2.a71b3d29.chunk.js": "/what-to-watch-react/static/js/2.a71b3d29.chunk.js",
     "static/js/2.a71b3d29.chunk.js.map": "/what-to-watch-react/static/js/2.a71b3d29.chunk.js.map",
     "index.html": "/what-to-watch-react/index.html",
-    "precache-manifest.b673707d2fde0e62509ab646bbd46bde.js": "/what-to-watch-react/precache-manifest.b673707d2fde0e62509ab646bbd46bde.js",
+    "precache-manifest.509452d249450685225ed653772ef5c3.js": "/what-to-watch-react/precache-manifest.509452d249450685225ed653772ef5c3.js",
     "service-worker.js": "/what-to-watch-react/service-worker.js",
-    "static/css/main.03de22cc.chunk.css.map": "/what-to-watch-react/static/css/main.03de22cc.chunk.css.map",
+    "static/css/main.3ab65579.chunk.css.map": "/what-to-watch-react/static/css/main.3ab65579.chunk.css.map",
     "static/js/2.a71b3d29.chunk.js.LICENSE.txt": "/what-to-watch-react/static/js/2.a71b3d29.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.317e5aa5.js",
     "static/js/2.a71b3d29.chunk.js",
-    "static/css/main.03de22cc.chunk.css",
-    "static/js/main.7b09253d.chunk.js"
+    "static/css/main.3ab65579.chunk.css",
+    "static/js/main.f5860f44.chunk.js"
   ]
 }
