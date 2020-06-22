@@ -177,12 +177,12 @@ class App extends Component {
           <div className="row">
             <div className="col-md-12">
               <div className="main-filters">
-                <h2 className="sub-header">Filters</h2>
+                <h2 className="sub-header">Filter by</h2>
               </div>
             </div>
           </div>
           <div className="row">
-            <div className="col col-lg-4">
+            <div className="col col-md-4">
             <button 
                 className={`btn btn-sm btn-lg-3 btn-outline-secondary btn-filter ${activeFilter === 'runtime' ? 'active' : ''}`}
                 onClick={() => this.showFilter('runtime')}
