@@ -602,6 +602,11 @@ footer small{
         margin: 0 auto;
     }
 
+    .overlay__wrapper{
+        width: 80vw;
+    }
+
+
     #theme-switcher{
         position: absolute;
         top: 0;
@@ -676,5 +681,8 @@ footer small{
     .container, #films { 
         width: 112rem;
         margin: 0 auto;
+    }
+    .overlay__wrapper{
+        max-width: 70rem;
     }
 }
