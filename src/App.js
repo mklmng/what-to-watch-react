@@ -206,7 +206,12 @@ class App extends Component {
                   extraGenres={extraGenres}
               />
             }
-            {activeFilter === 'decade' &&  <FilterByDecade handleFilterByDecade={this.handleFilterByDecade} />  }
+            {activeFilter === 'decade' &&  
+            <FilterByDecade 
+              handleFilterByDecade={this.handleFilterByDecade}
+              oldestDecade={oldestDecade}
+              newestDecade={newestDecade}
+                />  }
             <FilterByWatched 
               handleFilterByWatched={this.handleFilterByWatched}
               hideWatched={hideWatched}  
