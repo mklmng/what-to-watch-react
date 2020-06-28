@@ -5,20 +5,28 @@ export class RadioButton extends Component {
     static propTypes = {
         runtime: PropTypes.string.isRequired,
         runtimeText: PropTypes.string.isRequired,
-        runtimeId: PropTypes.string.isRequired
+        runtimeId: PropTypes.string.isRequired,
+        selectedRuntime: PropTypes.number.isRequired
     }
 
     render() {
+        const { runtime, runtimeText, runtimeId, selectedRuntime } = this.props;
+        let checkedRuntime = false;
+        if (runtime === selectedRuntime.toString()){
+            checkedRuntime = true;
+        }
+
         return (
             <div className="runtime-filter">
                 <input 
                     type="radio" 
                     className="film-times" 
                     name="runtime" 
-                    id={this.props.runtimeId}
-                    value={this.props.runtime}
+                    id={runtimeId}
+                    value={runtime}
+                    defaultChecked={checkedRuntime}
                         />
-                <label htmlFor={this.props.runtimeId}>{this.props.runtimeText}</label>
+                <label htmlFor={runtimeId}>{runtimeText}</label>
             </div>)
     }
 }

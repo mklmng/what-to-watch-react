@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 
 class FilterByRuntime extends Component {
     static propTypes = {
-        handleFilterByRuntime: PropTypes.func.isRequired
+        handleFilterByRuntime: PropTypes.func.isRequired,
+        runtime: PropTypes.number.isRequired
     }
 
     state = {
@@ -38,19 +39,22 @@ class FilterByRuntime extends Component {
     }
 
     render() {
+        const { runtime, handleFilterByRuntime } = this.props;
+        
         return (
             <div className="row">
                 <div className="col-md-12">
                     <div id="filter-runtime" className="film-filter">
                         <div id="runtimes">
                             <h2 className="filter-header">How much time do you have?</h2>	
-                                <div id="runtimes-filters" onChange={(e) => this.props.handleFilterByRuntime(e)}>
+                                <div id="runtimes-filters" onChange={(e) => handleFilterByRuntime(e)}>
                                     {this.state.runtimes.map((r, index) => {
                                         return (
                                             <RadioButton key={index}
                                                 runtime={r.runtime}
                                                 runtimeId={r.runtimeId}
                                                 runtimeText={r.runtimeText}
+                                                selectedRuntime={runtime}
                                             />
                                             )                            
                                     })}  

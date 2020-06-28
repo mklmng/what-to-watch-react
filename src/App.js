@@ -197,7 +197,10 @@ class App extends Component {
           </div>
           <Fragment>
             {activeFilter === 'runtime' &&
-                <FilterByRuntime handleFilterByRuntime={this.handleFilterByRuntime} />
+                <FilterByRuntime 
+                  handleFilterByRuntime={this.handleFilterByRuntime}
+                  runtime={runtime}
+                  />
             }
             {activeFilter === 'genre' && 
                 <FilterByGenre 
