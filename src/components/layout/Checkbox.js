@@ -13,7 +13,7 @@ class Checkbox extends Component {
 
         return (
             <div className="genre-selector">
-                <input id={this.props.genre} checked={checkedGenre} type="checkbox" className="genre-items" value={this.props.genre} />
+                <input id={this.props.genre} defaultChecked={checkedGenre} type="checkbox" className="genre-items" value={this.props.genre} />
                 <label htmlFor={this.props.genre}>{this.props.genre}</label>    
             </div>)
     }
