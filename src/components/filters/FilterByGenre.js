@@ -15,7 +15,8 @@ class FilterByGenre extends Component {
     static propTypes = {
         handleFilterByGenre: PropTypes.func.isRequired,
         mainGenres: PropTypes.array.isRequired,
-        extraGenres: PropTypes.array.isRequired
+        extraGenres: PropTypes.array.isRequired,
+        genres: PropTypes.array.isRequired
     }
 
     render() {
@@ -33,7 +34,11 @@ class FilterByGenre extends Component {
                         <div id="main-genres" onChange={(e) => this.props.handleFilterByGenre(e)}>
                             {this.props.mainGenres.map((g, index) => {
                             return (
-                                <Checkbox key={index} genre={g} />
+                                <Checkbox 
+                                    key={index} 
+                                    genre={g}
+                                    genres={this.props.genres}
+                                    />
                             )                            
                              })}
                         </div>
@@ -44,7 +49,11 @@ class FilterByGenre extends Component {
                         <div id="extra-genres" ref={this.genresRef} onChange={(e) => this.props.handleFilterByGenre(e)}>
                             {this.props.extraGenres.map((g, index) => {
                                 return (
-                                    <Checkbox key={index} genre={g} />
+                                    <Checkbox 
+                                    key={index} 
+                                    genre={g}
+                                    genres={this.props.genres}
+                                    />
                                 )                            
                                 })
                             }

@@ -204,6 +204,7 @@ class App extends Component {
                   handleFilterByGenre={this.handleFilterByGenre} 
                   mainGenres={mainGenres}
                   extraGenres={extraGenres}
+                  genres={genres}
               />
             }
             {activeFilter === 'decade' &&  
