@@ -20,6 +20,8 @@ class FilterByGenre extends Component {
     }
 
     render() {
+        const { handleFilterByGenre, mainGenres, extraGenres, genres } = this.props;
+        
         const toggleExpanded = (ref) => {
             this.setState({ expanded: !this.state.expanded });
             let elementCoordinates = ref.current.getBoundingClientRect();
@@ -31,13 +33,13 @@ class FilterByGenre extends Component {
                 <div className="col-md-12">
                     <div id="filter-genres" className="film-filter">
                         <h2 className="filter-header">Which genres do you like?</h2>	
-                        <div id="main-genres" onChange={(e) => this.props.handleFilterByGenre(e)}>
-                            {this.props.mainGenres.map((g, index) => {
+                        <div id="main-genres" onChange={(e) => handleFilterByGenre(e)}>
+                            {mainGenres.map((g, index) => {
                             return (
                                 <Checkbox 
                                     key={index} 
                                     genre={g}
-                                    genres={this.props.genres}
+                                    genres={genres}
                                     />
                             )                            
                              })}
@@ -46,13 +48,13 @@ class FilterByGenre extends Component {
                             onClick={() => toggleExpanded(this.genresRef)}>
                             See all genres
                         </span>
-                        <div id="extra-genres" ref={this.genresRef} onChange={(e) => this.props.handleFilterByGenre(e)}>
-                            {this.props.extraGenres.map((g, index) => {
+                        <div id="extra-genres" ref={this.genresRef} onChange={(e) => handleFilterByGenre(e)}>
+                            {extraGenres.map((g, index) => {
                                 return (
                                     <Checkbox 
                                     key={index} 
                                     genre={g}
-                                    genres={this.props.genres}
+                                    genres={genres}
                                     />
                                 )                            
                                 })

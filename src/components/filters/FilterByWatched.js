@@ -9,6 +9,7 @@ class FilterByWatched extends Component {
 
     render() {
         const { handleFilterByWatched , hideWatched} = this.props;
+        
         return (
             <div className="row">
                 <div className="col-md-12 centered">

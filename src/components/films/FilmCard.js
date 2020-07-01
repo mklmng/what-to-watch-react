@@ -3,53 +3,54 @@ import PropTypes from 'prop-types';
 
 class FilmCard extends Component {
     static propTypes = {
+        id: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,
         year: PropTypes.number.isRequired,
         director: PropTypes.array.isRequired,
         genres: PropTypes.array.isRequired,
+        runtime: PropTypes.number.isRequired,
         whereToWatch: PropTypes.string.isRequired,
+        trailer: PropTypes.string.isRequired,
         handleToggleOverlay: PropTypes.func.isRequired,
-        trailer: PropTypes.string.isRequired
+        convertTime: PropTypes.func.isRequired
     }
 
     render() {
-        const convertTime = (time) => {
-            let hours = time / 60;
-            if (time < 60){
-                return `${time}mins`;
-            } 
-            let fullTime = ((time % 60) > 0) ? `${Math.floor(hours)}h ${(time % 60)}mins` : `${hours}h`;
-            return fullTime;
-        }
+        const { id, title, year, director, genres, runtime, whereToWatch, trailer, handleToggleOverlay, convertTime } = this.props;
 
-        let fullGenres = this.props.genres.join(", ");
-        let fullDirector = (this.props.director.length > 1 ? this.props.director.join(", ") : this.props.director);
-        let fullTime = convertTime(this.props.runtime);
+        let fullGenres = genres.join(", ");
+        let fullDirector = (director.length > 1 ? director.join(", ") : director);
+        let fullTime = convertTime(runtime);
 
         return (
-            <div className="col-md-4" key={this.props.id}>
+            <div className="col-md-4" key={id}>
                 <div className="card film-card mb-4 box-shadow">
-                    <img className="card-img-top" src={`https://via.placeholder.com/336x255?text=${this.props.title}`} alt={this.props.title} />
+                    <img className="card-img-top" src={`https://via.placeholder.com/336x255?text=${title}`} alt={title} />
                     <div className="card-body">                            
-                        <p className="card-text">
-                            <span>Title: </span> {this.props.title}
+                        <p itemScope className="card-text">
+                            <span className="card-text__category">Title: </span> 
+                            <span itemProp="title">{title}</span>
                         </p>
-                        <p className="card-text">
-                            <span>Year: </span> {this.props.year}
+                        <p itemScope className="card-text">
+                            <span className="card-text__category">Year: </span> 
+                            <span itemProp="year">{year}</span>
                         </p>
-                        <p className="card-text">
-                            <span>Director: </span> {fullDirector}
+                        <p itemScope className="card-text">
+                            <span className="card-text__category">Director: </span> 
+                            <span itemProp="director">{fullDirector}</span>
                         </p>
-                        <p className="card-text">
-                            <span>Genres: </span> {fullGenres}
+                        <p itemScope className="card-text">
+                            <span className="card-text__category">Genres: </span>
+                            <span itemProp="genres">{fullGenres}</span>
                         </p>
-                        <p className="card-text">
-                            <span>Runtime: </span> {fullTime}
+                        <p itemScope className="card-text">
+                            <span className="card-text__category">Runtime: </span>
+                            <span itemProp="runtime">{fullTime}</span>
                         </p>
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="btn-group">
-                                <a href={`https://www.justwatch.com/uk/movie/${this.props.whereToWatch}`} className="btn btn-sm btn-outline-secondary btn-vod">Watch Film</a>
-                                <button type="button" className="btn btn-sm btn-outline-secondary btn-trailer" onClick={() => this.props.handleToggleOverlay(this.props.trailer)}>Watch trailer</button>
+                                <a href={`https://www.justwatch.com/uk/movie/${whereToWatch}`} className="btn btn-sm btn-outline-secondary btn-vod">Watch Film</a>
+                                <button type="button" className="btn btn-sm btn-outline-secondary btn-trailer" onClick={() => handleToggleOverlay(trailer)}>Watch trailer</button>
                             </div>
                         </div>
                     </div>

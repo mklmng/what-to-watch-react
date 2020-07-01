@@ -16,6 +16,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = { 
+        filterTriggered: false,
         runtime: 0,
         oldestDecade: 0,
         newestDecade: 0,
@@ -71,8 +72,8 @@ class App extends Component {
   }   
 
   showFilter = filterName => this.setState({ activeFilter: filterName });
-  handleFilterByWatched = () => this.setState(prevstate => ({ hideWatched: !prevstate.hideWatched}));
-  handleFilterByRuntime = e => this.setState({ runtime: parseInt(e.target.value) }); 
+  handleFilterByWatched = () => this.setState(prevstate => ({ hideWatched: !prevstate.hideWatched, filterTriggered: true}));
+  handleFilterByRuntime = e => this.setState({ runtime: parseInt(e.target.value), filterTriggered: true }); 
   handleFilterByDecade = (e) => {
     const decade = parseInt(e.target.value);
     const selectedIndex = e.target.selectedIndex;
@@ -81,12 +82,14 @@ class App extends Component {
       if (decade > this.state.newestDecade){
         this.setState({ 
           oldestDecade: decade,
-          newestDecade: decade
+          newestDecade: decade,
+          filterTriggered: true
         })
         document.querySelector("#newest-decade").selectedIndex = selectedIndex;
       } else {
         this.setState({
           oldestDecade: decade,
+          filterTriggered: true
         })
       }
     }
@@ -94,11 +97,13 @@ class App extends Component {
     if (e.target.id === "newest-decade"){
       if (e.target.value >= this.state.oldestDecade){
         this.setState({ 
-          newestDecade: decade
+          newestDecade: decade,
+          filterTriggered: true
         })
       } else {
         this.setState({
-          newestDecade: this.state.oldestDecade
+          newestDecade: this.state.oldestDecade,
+          filterTriggered: true
         })
         document.querySelector("#newest-decade").selectedIndex = document.querySelector("#oldest-decade").selectedIndex;
       }
@@ -121,23 +126,38 @@ class App extends Component {
 
     if (!this.state.genres.includes(genre)){
       this.setState({
-        genres: [...this.state.genres, genre]
+        genres: [...this.state.genres, genre],
+        filterTriggered: true
       })
     } else {
         let genres = [...this.state.genres];
         let index = genres.indexOf(e.target.value);
         genres.splice(index, 1);
-        this.setState({ genres: genres })
+        this.setState({ 
+          genres: genres,
+          filterTriggered: true
+        })
     }
   }
 
   handleToggleOverlay = (trailer) => {
-      this.setState({ overlay: !this.state.overlay, trailer: trailer })
+      this.setState({ 
+        overlay: !this.state.overlay, 
+        trailer: trailer 
+      })
+  }
+
+  convertTime = (time) => {
+    let hours = time / 60;
+    if (time < 60){
+        return `${time}mins`;
+    } 
+    let fullTime = ((time % 60) > 0) ? `${Math.floor(hours)}h ${(time % 60)}mins` : `${hours}h`;
+    return fullTime;
   }
   
   render(){
-
-    const { films, runtime, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
+    const { filterTriggered, films, runtime, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
 
     let filteredFilms = films.filter(film => 
       film.runtime <= runtime
@@ -159,6 +179,13 @@ class App extends Component {
 
     if (hideWatched){
       filteredFilms = filteredFilms.filter(f => !f.watched);
+    }
+
+    let fullTime = this.convertTime(runtime);
+
+    let sameDecade = false;
+    if (oldestDecade === newestDecade){
+      sameDecade = true;
     }
 
     return (
@@ -223,6 +250,32 @@ class App extends Component {
           </Fragment>
           <div className="row">
               <div className="col-md-12">
+                {filterTriggered &&
+                  <div id="search-labels">
+                    <p className="search-labels__content">
+                      <span className="search-labels__content__intro">Looking for:</span>
+                      {genres.length > 0 && 
+                      genres.map((g,index) => {
+                        return (
+                          <span key={index} className="search-labels__tag">{g}</span>
+                        )
+                      })
+                      }
+
+                      {((runtime !== 0) && (runtime < 181)) && 
+                      <span className="search-labels__tag">{fullTime} or less</span>
+                      }
+
+                      {(sameDecade 
+                        ? <span className="search-labels__tag">{oldestDecade}s</span>
+                        : <span className="search-labels__tag">{oldestDecade}s - {newestDecade}s</span>
+                      )}
+                      
+                      {hideWatched && 
+                      <span className="search-labels__tag">unseen</span>}
+                    </p>
+                  </div>
+                }
                   <div id="results" ref={this.resultsRef}  onClick={() => this.scrollToSection(this.resultsRef)}>
                     <p className={`film-results ${this.state.goToFilms ? "return" : ""}`}>
                       {filteredFilms.length > 1 && 
@@ -262,6 +315,7 @@ class App extends Component {
                       trailer={film.trailer}
                       overlay={this.state.overlay}
                       handleToggleOverlay={this.handleToggleOverlay}
+                      convertTime={this.convertTime}
                   />
                 )                            
               })}
