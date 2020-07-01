@@ -619,7 +619,7 @@ footer small{
     }
 
     .search-labels__tag{
-        margin: 0;
+        margin: 0 0.25rem;
     }
 
     .runtime-filter{
