@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/what-to-watch-react/static/css/main.79f10d11.chunk.css",
+    "main.css": "/what-to-watch-react/static/css/main.b2785b06.chunk.css",
     "main.js": "/what-to-watch-react/static/js/main.e7151ea9.chunk.js",
     "main.js.map": "/what-to-watch-react/static/js/main.e7151ea9.chunk.js.map",
     "runtime-main.js": "/what-to-watch-react/static/js/runtime-main.317e5aa5.js",
@@ -8,15 +8,15 @@
     "static/js/2.a71b3d29.chunk.js": "/what-to-watch-react/static/js/2.a71b3d29.chunk.js",
     "static/js/2.a71b3d29.chunk.js.map": "/what-to-watch-react/static/js/2.a71b3d29.chunk.js.map",
     "index.html": "/what-to-watch-react/index.html",
-    "precache-manifest.1924f4659a2e9d76e34ce682d6180a46.js": "/what-to-watch-react/precache-manifest.1924f4659a2e9d76e34ce682d6180a46.js",
+    "precache-manifest.3ac38b2a8537107e0644033d105ea5ab.js": "/what-to-watch-react/precache-manifest.3ac38b2a8537107e0644033d105ea5ab.js",
     "service-worker.js": "/what-to-watch-react/service-worker.js",
-    "static/css/main.79f10d11.chunk.css.map": "/what-to-watch-react/static/css/main.79f10d11.chunk.css.map",
+    "static/css/main.b2785b06.chunk.css.map": "/what-to-watch-react/static/css/main.b2785b06.chunk.css.map",
     "static/js/2.a71b3d29.chunk.js.LICENSE.txt": "/what-to-watch-react/static/js/2.a71b3d29.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.317e5aa5.js",
     "static/js/2.a71b3d29.chunk.js",
-    "static/css/main.79f10d11.chunk.css",
+    "static/css/main.b2785b06.chunk.css",
     "static/js/main.e7151ea9.chunk.js"
   ]
 }
