@@ -9,14 +9,16 @@ class FilmCard extends Component {
         director: PropTypes.array.isRequired,
         genres: PropTypes.array.isRequired,
         runtime: PropTypes.number.isRequired,
+        watched: PropTypes.bool.isRequired,
         whereToWatch: PropTypes.string.isRequired,
         trailer: PropTypes.string.isRequired,
         handleToggleOverlay: PropTypes.func.isRequired,
-        convertTime: PropTypes.func.isRequired
+        convertTime: PropTypes.func.isRequired,
+        toggleFilmWatched: PropTypes.func.isRequired
     }
 
     render() {
-        const { id, title, year, director, genres, runtime, whereToWatch, trailer, handleToggleOverlay, convertTime } = this.props;
+        const { id, title, year, director, genres, runtime, watched, whereToWatch, trailer, handleToggleOverlay, convertTime, toggleFilmWatched } = this.props;
 
         let fullGenres = genres.join(", ");
         let fullDirector = (director.length > 1 ? director.join(", ") : director);
@@ -24,7 +26,8 @@ class FilmCard extends Component {
 
         return (
             <div className="col-md-4" key={id}>
-                <div className="card film-card mb-4 box-shadow">
+                <div className={`card film-card mb-4 box-shadow ${watched ? 'watched' : ''}`}>                
+                    <button className="icon-watched" onClick={() => toggleFilmWatched(id)}></button>
                     <img className="card-img-top" src={`https://via.placeholder.com/336x255?text=${title}`} alt={title} />
                     <div className="card-body">                            
                         <p itemScope className="card-text">

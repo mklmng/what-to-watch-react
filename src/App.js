@@ -36,7 +36,8 @@ class App extends Component {
   }
   
   componentDidMount() {
-    this.setState({ loading: true }, () => {
+    if (this.state.films.length < 1){
+      this.setState({ loading: true }, () => {
         axios.get('https://gist.githubusercontent.com/mklmng/fa894dc9c86dfed34e45063adcf1b73e/raw/eb77422572bbf7bee0ebaf86c02eb1fe99730195/Films.json')
         .then(response => {
             let maxRuntime = parseInt(Math.max.apply(0, response.data.map(film => film.runtime)));  
@@ -68,9 +69,13 @@ class App extends Component {
         .catch(error => {
             this.setState({ loading: false })
         });
-    });
+      });
+    } else {
+      this.setState({ films: this.state.films })
+    }
   }   
 
+  toggleWatched = () => { this.setState({ watched: !this.state.watched })};
   showFilter = filterName => this.setState({ activeFilter: filterName });
   handleFilterByWatched = () => this.setState(prevstate => ({ hideWatched: !prevstate.hideWatched, filterTriggered: true}));
   handleFilterByRuntime = e => this.setState({ runtime: parseInt(e.target.value), filterTriggered: true }); 
@@ -155,6 +160,18 @@ class App extends Component {
     let fullTime = ((time % 60) > 0) ? `${Math.floor(hours)}h ${(time % 60)}mins` : `${hours}h`;
     return fullTime;
   }
+
+  toggleFilmWatched = (id) => {
+    let updatedFilms = [...this.state.films];
+    updatedFilms.forEach(f => {
+      if (f.id === id){
+        f.watched = !f.watched;
+      }
+    });
+    this.setState({ films: updatedFilms })
+  }
+
+
   
   render(){
     const { filterTriggered, films, runtime, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
@@ -311,11 +328,13 @@ class App extends Component {
                       director={film.director}
                       genres={film.genres}
                       runtime={film.runtime}
+                      watched={film.watched}
                       whereToWatch={film.whereToWatch}
                       trailer={film.trailer}
                       overlay={this.state.overlay}
                       handleToggleOverlay={this.handleToggleOverlay}
                       convertTime={this.convertTime}
+                      toggleFilmWatched={this.toggleFilmWatched}
                   />
                 )                            
               })}
