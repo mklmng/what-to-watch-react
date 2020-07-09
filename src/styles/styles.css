@@ -277,6 +277,13 @@ label[for="theme"]{
     border: 1px solid rgba(0,0,0,.4);
 }
 
+.search-labels__tag--interactive:hover{
+    cursor: pointer;
+    background: #000;
+    color: #FFF;
+    
+}
+
 .film-results strong{
     color: #FF0;
 }
@@ -433,6 +440,14 @@ label[for="theme"]{
     font-weight: bold;
 }
 
+.card-text__filter{
+    cursor: pointer;
+}
+
+.card-text__filter:hover{
+    color: #FF0;
+}
+
 .film-runtime{
     padding-bottom: 1.6rem;
 }
@@ -557,7 +572,7 @@ label[for="theme"]{
 	right: 0;
 	bottom: 0;
     background: rgba(0,0,0,0.8);
-    z-index: 2;
+    z-index: 3;
 }
 
 .overlay__wrapper{

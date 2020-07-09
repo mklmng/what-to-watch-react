@@ -18,6 +18,8 @@ class App extends Component {
     this.state = { 
         filterTriggered: false,
         runtime: 0,
+        selectedYear: 0,
+        selectedDirector: '',
         oldestDecade: 0,
         newestDecade: 0,
         hideWatched: false,
@@ -38,7 +40,7 @@ class App extends Component {
   componentDidMount() {
     if (this.state.films.length < 1){
       this.setState({ loading: true }, () => {
-        axios.get('https://gist.githubusercontent.com/mklmng/fa894dc9c86dfed34e45063adcf1b73e/raw/eb77422572bbf7bee0ebaf86c02eb1fe99730195/Films.json')
+        axios.get('https://gist.githubusercontent.com/mklmng/fa894dc9c86dfed34e45063adcf1b73e/raw/eab13d0cb818951da46c78ee18d07f904814015b/Films.json')
         .then(response => {
             let maxRuntime = parseInt(Math.max.apply(0, response.data.map(film => film.runtime)));  
             let filmYears = response.data.map(film => film.year);
@@ -77,6 +79,8 @@ class App extends Component {
 
   toggleWatched = () => { this.setState({ watched: !this.state.watched })};
   showFilter = filterName => this.setState({ activeFilter: filterName });
+  handleFilterByYear = y => this.setState({selectedYear: parseInt(y), filterTriggered: true });
+  handleFilterByDirector = d => this.setState({selectedDirector: d, selectedYear: 0, filterTriggered: true });
   handleFilterByWatched = () => this.setState(prevstate => ({ hideWatched: !prevstate.hideWatched, filterTriggered: true}));
   handleFilterByRuntime = e => this.setState({ runtime: parseInt(e.target.value), filterTriggered: true }); 
   handleFilterByDecade = (e) => {
@@ -88,13 +92,15 @@ class App extends Component {
         this.setState({ 
           oldestDecade: decade,
           newestDecade: decade,
-          filterTriggered: true
+          filterTriggered: true,
+          selectedYear: 0,
         })
         document.querySelector("#newest-decade").selectedIndex = selectedIndex;
       } else {
         this.setState({
           oldestDecade: decade,
-          filterTriggered: true
+          filterTriggered: true,
+          selectedYear: 0,
         })
       }
     }
@@ -103,12 +109,14 @@ class App extends Component {
       if (e.target.value >= this.state.oldestDecade){
         this.setState({ 
           newestDecade: decade,
-          filterTriggered: true
+          filterTriggered: true,
+          selectedYear: 0,
         })
       } else {
         this.setState({
           newestDecade: this.state.oldestDecade,
-          filterTriggered: true
+          filterTriggered: true,
+          selectedYear: 0,
         })
         document.querySelector("#newest-decade").selectedIndex = document.querySelector("#oldest-decade").selectedIndex;
       }
@@ -132,7 +140,8 @@ class App extends Component {
     if (!this.state.genres.includes(genre)){
       this.setState({
         genres: [...this.state.genres, genre],
-        filterTriggered: true
+        filterTriggered: true,
+        selectedDirector: ''
       })
     } else {
         let genres = [...this.state.genres];
@@ -140,7 +149,8 @@ class App extends Component {
         genres.splice(index, 1);
         this.setState({ 
           genres: genres,
-          filterTriggered: true
+          filterTriggered: true,
+          selectedDirector: ''
         })
     }
   }
@@ -168,41 +178,51 @@ class App extends Component {
         f.watched = !f.watched;
       }
     });
-    this.setState({ films: updatedFilms })
+    this.setState({ films: updatedFilms, selectedDirector: '' })
   }
 
-
-  
+  resetProperty = (e) => {
+    if (e === "director"){
+      this.setState({ selectedDirector: ''})
+    }
+    if (e === "year"){
+      this.setState({ selectedYear: 0})
+    }
+  }
+    
   render(){
-    const { filterTriggered, films, runtime, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
+    const { filterTriggered, films, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
 
     let filteredFilms = films.filter(film => 
       film.runtime <= runtime
-      && film.runtime <= runtime
       && (film.year >= oldestDecade && film.year <= newestDecade + 9) 
     )
 
-    if (hideWatched){
-        filteredFilms = filteredFilms.filter(film => 
-            film.watched === !hideWatched 
-        )               
-    } 
-
     if (genres.length){
-        filteredFilms = filteredFilms.filter(film => 
-            film.genres.some(g => genres.includes(g))
-        )
+      filteredFilms = filteredFilms.filter(film => 
+          film.genres.some(g => genres.includes(g))
+      )
+    }
+
+    if (selectedDirector.length){
+      filteredFilms = filteredFilms.filter(f => f.director.some(g => selectedDirector.includes(g)));
+    }
+
+    let fullTime = this.convertTime(runtime);
+    let sameDecade = false;
+    if (oldestDecade === newestDecade){
+      sameDecade = true;
+    }
+
+    // Specific filters
+    // These filters reset the regular ones to default and focus on an specific year or director
+    // if the user interacts with the other filters they're overridden
+    if (selectedYear !== 0){
+      filteredFilms = this.state.films.filter(f => f.year === selectedYear);
     }
 
     if (hideWatched){
       filteredFilms = filteredFilms.filter(f => !f.watched);
-    }
-
-    let fullTime = this.convertTime(runtime);
-
-    let sameDecade = false;
-    if (oldestDecade === newestDecade){
-      sameDecade = true;
     }
 
     return (
@@ -283,13 +303,16 @@ class App extends Component {
                       <span className="search-labels__tag">{fullTime} or less</span>
                       }
 
-                      {(sameDecade 
-                        ? <span className="search-labels__tag">{oldestDecade}s</span>
-                        : <span className="search-labels__tag">{oldestDecade}s - {newestDecade}s</span>
-                      )}
-                      
-                      {hideWatched && 
-                      <span className="search-labels__tag">unseen</span>}
+                      {((selectedYear === 0) && sameDecade) && 
+                        <span className="search-labels__tag">{oldestDecade}s</span>
+                      }
+                      {((selectedYear === 0) && !sameDecade) && 
+                      <span className="search-labels__tag">{oldestDecade}s - {newestDecade}s</span>
+                      }
+
+                      {selectedYear > 0 && <span className="search-labels__tag search-labels__tag--interactive" onClick={() => this.resetProperty("year")}>{selectedYear}</span> }
+                      {selectedDirector !== "" && <span className="search-labels__tag search-labels__tag--interactive" onClick={() => this.resetProperty("director")}>Directed by {selectedDirector}</span> }
+                      {hideWatched && <span className="search-labels__tag">unseen</span>}
                     </p>
                   </div>
                 }
@@ -335,6 +358,8 @@ class App extends Component {
                       handleToggleOverlay={this.handleToggleOverlay}
                       convertTime={this.convertTime}
                       toggleFilmWatched={this.toggleFilmWatched}
+                      handleFilterByYear={this.handleFilterByYear}
+                      handleFilterByDirector={this.handleFilterByDirector}
                   />
                 )                            
               })}

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 
 class FilmCard extends Component {
@@ -14,14 +14,15 @@ class FilmCard extends Component {
         trailer: PropTypes.string.isRequired,
         handleToggleOverlay: PropTypes.func.isRequired,
         convertTime: PropTypes.func.isRequired,
-        toggleFilmWatched: PropTypes.func.isRequired
+        toggleFilmWatched: PropTypes.func.isRequired,
+        handleFilterByYear: PropTypes.func.isRequired,
+        handleFilterByDirector: PropTypes.func.isRequired
     }
 
     render() {
-        const { id, title, year, director, genres, runtime, watched, whereToWatch, trailer, handleToggleOverlay, convertTime, toggleFilmWatched } = this.props;
+        const { id, title, year, director, genres, runtime, watched, whereToWatch, trailer, handleToggleOverlay, convertTime, toggleFilmWatched, handleFilterByYear, handleFilterByDirector } = this.props;
 
-        let fullGenres = genres.join(", ");
-        let fullDirector = (director.length > 1 ? director.join(", ") : director);
+        let fullGenres = (genres.length > 1 ? genres.join(", ") : genres);
         let fullTime = convertTime(runtime);
 
         return (
@@ -36,11 +37,24 @@ class FilmCard extends Component {
                         </p>
                         <p itemScope className="card-text">
                             <span className="card-text__category">Year: </span> 
-                            <span itemProp="year">{year}</span>
+                            <span className="card-text__filter" itemProp="year" onClick={() => handleFilterByYear(year)}>{year}</span>
                         </p>
                         <p itemScope className="card-text">
                             <span className="card-text__category">Director: </span> 
-                            <span itemProp="director">{fullDirector}</span>
+                            {director.map((d, index) => {
+                            return (
+                                <Fragment key={index}>
+                                    <span 
+                                        className="card-text__filter"
+                                        itemProp="director" 
+                                        onClick={() => handleFilterByDirector(d)}
+                                        >
+                                    {d}
+                                    </span>{(index < director.length - 1) && ', '}
+                                </Fragment>
+                                )
+                                })
+                            }
                         </p>
                         <p itemScope className="card-text">
                             <span className="card-text__category">Genres: </span>
