@@ -16,13 +16,12 @@ class FilmCard extends Component {
         convertTime: PropTypes.func.isRequired,
         toggleFilmWatched: PropTypes.func.isRequired,
         handleFilterByYear: PropTypes.func.isRequired,
-        handleFilterByDirector: PropTypes.func.isRequired
+        handleFilterByDirector: PropTypes.func.isRequired,
+        handleFilterByGenre: PropTypes.func.isRequired
     }
 
     render() {
-        const { id, title, year, director, genres, runtime, watched, whereToWatch, trailer, handleToggleOverlay, convertTime, toggleFilmWatched, handleFilterByYear, handleFilterByDirector } = this.props;
-
-        let fullGenres = (genres.length > 1 ? genres.join(", ") : genres);
+        const { id, title, year, director, genres, runtime, watched, whereToWatch, trailer, handleToggleOverlay, convertTime, toggleFilmWatched, handleFilterByYear, handleFilterByDirector, handleFilterByGenre } = this.props;
         let fullTime = convertTime(runtime);
 
         return (
@@ -58,7 +57,20 @@ class FilmCard extends Component {
                         </p>
                         <p itemScope className="card-text">
                             <span className="card-text__category">Genres: </span>
-                            <span itemProp="genres">{fullGenres}</span>
+                            {genres.map((g, index) => {
+                            return (
+                                <Fragment key={index}>
+                                    <span 
+                                        className="card-text__filter"
+                                        itemProp="genre" 
+                                        onClick={() => handleFilterByGenre(g)}
+                                        >
+                                    {g}
+                                    </span>{(index < genres.length - 1) && ', '}
+                                </Fragment>
+                                )
+                                })
+                            }                            
                         </p>
                         <p itemScope className="card-text">
                             <span className="card-text__category">Runtime: </span>
