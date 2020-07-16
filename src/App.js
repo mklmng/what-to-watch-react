@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import FilmOverlay from './components/films/FilmOverlay';
 import Header from './components/layout/Header';
+import Searchbox from './components/layout/Searchbox';
 import FilterByRuntime from './components/filters/FilterByRuntime';
 import FilterByDecade from './components/filters/FilterByDecade';
 import FilterByGenre from './components/filters/FilterByGenre';
@@ -27,6 +28,8 @@ class App extends Component {
         mainGenres: ["action" , "comedy" , "drama" , "horror" , "sci-fi"],
         extraGenres: [],
         films: [],
+        searchText: '',
+        suggestedFilms: [],
         loading: true,
         overlay: false,
         trailer: "",
@@ -184,15 +187,51 @@ class App extends Component {
 
   resetProperty = (e) => {
     if (e === "director"){
-      this.setState({ selectedDirector: ''})
+      this.setState({ 
+        selectedDirector: '',
+        selectedFilms: []
+      })
     }
     if (e === "year"){
-      this.setState({ selectedYear: 0})
+      this.setState({ 
+        selectedYear: 0,
+        selectedFilms: []
+      })
+    }
+  }
+
+  handleChange = (e) => {
+    !e.target.value.length 
+    ? 
+    this.setState({
+      searchText: e.target.value,
+      suggestedFilms: []
+    })
+    :
+    this.setState({ 
+      searchText: e.target.value,
+     }) 
+  };
+  handleAutocomplete = (e) => {
+    if (this.state.searchText.length > 0){
+      let suggestions = [];
+      let searchItem = e.target.value.toLowerCase();
+      this.state.films.forEach(f => {
+        let title = f.title.toLowerCase();
+        if (title.startsWith(searchItem)){
+            suggestions.push(f);
+          }
+        }
+      )
+      this.setState({ suggestedFilms: suggestions })
     }
   }
     
   render(){
-    const { filterTriggered, films, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
+    const { filterTriggered, films, suggestedFilms, searchText, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
+
+    let fullTime = this.convertTime(runtime);
+
 
     let filteredFilms = films.filter(film => 
       film.runtime <= runtime
@@ -205,11 +244,11 @@ class App extends Component {
       )
     }
 
-    let fullTime = this.convertTime(runtime);
 
     // Specific filters
     // These filters reset the regular ones to default and focus on an specific year or director
     // if the user interacts with the other filters they're overridden
+    
     if (selectedYear !== 0){
       filteredFilms = this.state.films.filter(f => f.year === selectedYear);
     }
@@ -224,17 +263,21 @@ class App extends Component {
 
     return (
       <div id="full-wrapper">
-        <link
-            rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-            integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-            crossOrigin="anonymous"
-          />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" type="text/css" />
 
         {overlay &&  <FilmOverlay handleToggleOverlay={this.handleToggleOverlay} trailer={trailer} /> }
 
-        <Header />
         <div className="container">
+          <div className="row below2">
+            <Header />
+            <Searchbox
+              searchText={searchText}
+              suggestedFilms={suggestedFilms}
+              handleChange={this.handleChange}
+              handleAutocomplete={this.handleAutocomplete}
+            />
+          </div>
           <div className="row">
             <div className="col-md-12">
               <div className="main-filters">
@@ -243,7 +286,7 @@ class App extends Component {
             </div>
           </div>
           <div className="row">
-            <div className="col col-md-4">
+            <div className="col-12 col-md-4">
             <button 
                 className={`btn btn-sm btn-lg-3 btn-outline-secondary btn-filter ${activeFilter === 'runtime' ? 'active' : ''}`}
                 onClick={() => this.showFilter('runtime')}

@@ -15,8 +15,80 @@ body.no-scroll{
 }
 
 body .container{
-    padding: 0;
+    padding: 1rem 0 0 0;
 }
+
+*{
+    box-sizing: border-box;
+}
+
+.below2{
+    margin-bottom: 2rem;
+}
+
+.search-box{
+    margin-left: auto;
+}
+
+.search-box__container{
+    width: 100%;
+    padding: 1rem;
+    position: relative;
+}
+
+#search{
+    height: 2.5rem;
+    padding: 0.5rem;
+    width: 80%;
+}
+
+.btn-wrapper{
+    background: #ccc;
+    position: relative;
+    padding: 0.5rem 1rem;
+    display: inline;
+}
+
+.btn-search{
+    padding: 0.25rem;
+    background: center / 60% no-repeat url(../assets/icons/magnifying-glass-icon.svg);
+    text-indent: -9999px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+
+.autocomplete{
+    position: absolute;
+    top: 3rem;
+    left: 0;
+    background: #ffffff;
+    z-index: 9;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid rgba(0,0,0,.4);
+}
+.autocomplete li{
+    list-style-type: none;
+}
+.hidden{
+    display: none;
+}
+
+.fa-search:before{
+    font-size: 1.4rem;
+}
+
+.film-suggestion{
+    cursor: pointer;
+}
+.film-suggestion:hover{
+    font-weight: bold;
+}
+
+
 
 #main-header{
     background: #000;
@@ -643,6 +715,10 @@ footer small{
     .film-trailer, .watch-film-cta{
         width: 50%rem;
     }
+
+    #search{
+        width: 90%;
+    }
 }
 
 @media screen and (max-width: 767px) {
@@ -656,13 +732,38 @@ footer small{
 }
 
 @media screen and (min-width: 768px) {   
+    body .container{
+        padding-top: 2rem;
+    }
+
     #main-header{
-        margin-bottom: 1.5rem
+        margin: 0;
+        text-align: left;
     }
 
     .sub-header{
         text-align: left;
     }
+
+    #search{
+        width: initial;
+        max-width: 255px;
+    }
+
+    .autocomplete{
+        top: 2.5rem;
+        width: 100%;
+        max-width: 287px;
+    }
+
+    .btn-wrapper{
+        width: 15%;
+    }
+
+    .search-box__container{
+        float: right;
+    }
+
 
     .search-labels__content__intro{
         display: inline-block;
