@@ -28,6 +28,7 @@ class App extends Component {
         mainGenres: ["action" , "comedy" , "drama" , "horror" , "sci-fi"],
         extraGenres: [],
         films: [],
+        filteredFilms: [],
         searchText: '',
         suggestedFilms: [],
         loading: true,
@@ -68,7 +69,8 @@ class App extends Component {
               oldestDecade: oldestDecade,
               newestDecade: newestDecade,
               extraGenres: extraGenres,
-              films: response.data
+              films: response.data,
+              filteredFilms: response.data
             })
         })
         .catch(error => {
@@ -212,6 +214,7 @@ class App extends Component {
       searchText: e.target.value,
      }) 
   };
+
   handleAutocomplete = (e) => {
     if (this.state.searchText.length > 0){
       let suggestions = [];
@@ -226,40 +229,66 @@ class App extends Component {
       this.setState({ suggestedFilms: suggestions })
     }
   }
+
+  showFilm = (id) => {
+    this.setState({
+      filteredFilms: this.state.films.filter(f => f.id === id),
+      suggestedFilms: []
+    })
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    let matches = this.state.films.filter((film)=>{
+      return film.title.toLowerCase().includes(this.state.searchText.toLowerCase());
+    })
+
+    matches.length 
+    ?
+    this.setState({
+      filteredFilms: matches,
+      suggestedFilms: []
+    }) 
+    :
+    this.setState({
+      filteredFilms: [],
+      suggestedFilms: []
+    })
+  }
     
   render(){
-    const { filterTriggered, films, suggestedFilms, searchText, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
+    const { filterTriggered, films, filteredFilms, suggestedFilms, searchText, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
 
     let fullTime = this.convertTime(runtime);
 
 
-    let filteredFilms = films.filter(film => 
-      film.runtime <= runtime
-      && (film.year >= oldestDecade && film.year <= newestDecade + 9) 
-    )
+    // let filteredFilms = films.filter(film => 
+    //   film.runtime <= runtime
+    //   && (film.year >= oldestDecade && film.year <= newestDecade + 9) 
+    // )
 
-    if (genres.length){
-      filteredFilms = filteredFilms.filter(film => 
-          film.genres.some(g => genres.includes(g))
-      )
-    }
+    // if (genres.length){
+    //   filteredFilms = filteredFilms.filter(film => 
+    //       film.genres.some(g => genres.includes(g))
+    //   )
+    // }
 
 
     // Specific filters
     // These filters reset the regular ones to default and focus on an specific year or director
     // if the user interacts with the other filters they're overridden
     
-    if (selectedYear !== 0){
-      filteredFilms = this.state.films.filter(f => f.year === selectedYear);
-    }
+    // if (selectedYear !== 0){
+    //   filteredFilms = this.state.films.filter(f => f.year === selectedYear);
+    // }
 
-    if (selectedDirector.length){
-      filteredFilms = this.state.films.filter(f => f.director.some(g => selectedDirector.includes(g)));
-    }
+    // if (selectedDirector.length){
+    //   filteredFilms = this.state.films.filter(f => f.director.some(g => selectedDirector.includes(g)));
+    // }
 
-    if (hideWatched){
-      filteredFilms = filteredFilms.filter(f => !f.watched);
-    }
+    // if (hideWatched){
+    //   filteredFilms = filteredFilms.filter(f => !f.watched);
+    // }
 
     return (
       <div id="full-wrapper">
@@ -276,6 +305,8 @@ class App extends Component {
               suggestedFilms={suggestedFilms}
               handleChange={this.handleChange}
               handleAutocomplete={this.handleAutocomplete}
+              handleSubmit={this.handleSubmit}
+              showFilm={this.showFilm}
             />
           </div>
           <div className="row">
