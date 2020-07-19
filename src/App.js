@@ -32,6 +32,8 @@ class App extends Component {
         searchText: '',
         selectedId: 0,
         suggestedFilms: [],
+        submitted: false,
+        submittedQuery: '',
         loading: true,
         overlay: false,
         trailer: "",
@@ -250,12 +252,14 @@ class App extends Component {
     this.setState({
       searchText: e.target.value,
       filterTriggered: true,
-      suggestedFilms: []
+      suggestedFilms: [],
+      submittedQuery: ''
     })
     :
     this.setState({ 
       searchText: e.target.value,
-      filterTriggered: true
+      filterTriggered: true,
+      submittedQuery: ''
      }) 
   };
 
@@ -270,7 +274,7 @@ class App extends Component {
           }
         }
       )
-      this.setState({ suggestedFilms: suggestions, submitted: false })
+      this.setState({ suggestedFilms: suggestions, submitted: false, filterTriggered: true })
     }
   }
 
@@ -286,14 +290,18 @@ class App extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
+    let query = this.state.searchText;
+
     this.setState({
+      submittedQuery: query,
       suggestedFilms: [],
-      submitted: true
+      submitted: true,
+      searchText: '',
     })
   }
     
   render(){
-    const { filterTriggered, films, suggestedFilms, searchText, submitted, selectedId, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
+    const { filterTriggered, films, suggestedFilms, searchText, submitted, submittedQuery, selectedId, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
 
     let fullTime = this.convertTime(runtime);
 
@@ -403,14 +411,17 @@ class App extends Component {
                   <div id="search-labels">
                     <p className="search-labels__content">
                       <span className="search-labels__content__intro">Looking for:</span>
-                      {(searchText.length > 0 || submitted) && 
-                      <span className="search-labels__tag">{searchText}</span>
+                      {(submittedQuery.length > 0 || submitted) && 
+                        <span className="search-labels__tag">{submittedQuery}</span>
+                      }
+
+                      {(searchText.length > 0) && 
+                        <span className="search-labels__tag">{searchText}</span>
                       }
 
                       {!(searchText.length > 0 || submitted) && 
                       <Fragment>
-                        {!(searchText.length > 0 && submitted) && genres.length > 0 && 
-                        genres.map((g,index) => {
+                        {genres.map((g,index) => {
                           return (
                             <span key={index} className="search-labels__tag search-labels__tag--interactive" onClick={() => this.handleFilterByGenre(g)}>{g}</span>
                           )
