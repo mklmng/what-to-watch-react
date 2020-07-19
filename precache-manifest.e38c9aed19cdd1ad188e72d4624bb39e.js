@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7f30ddb40627948cd4be230d7eaf1a3a",
+    "revision": "17c23b8a8a22eacdc177716a5de0846e",
     "url": "/what-to-watch-react/index.html"
   },
   {
-    "revision": "62b6f29c4ac42f5f2734",
-    "url": "/what-to-watch-react/static/css/main.6b6ad9d5.chunk.css"
+    "revision": "e7812c1d94cda13185e3",
+    "url": "/what-to-watch-react/static/css/main.9a2ba240.chunk.css"
   },
   {
     "revision": "26284c1e6866b9851bc7",
@@ -16,12 +16,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/what-to-watch-react/static/js/2.a71b3d29.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "62b6f29c4ac42f5f2734",
-    "url": "/what-to-watch-react/static/js/main.acaa600f.chunk.js"
+    "revision": "e7812c1d94cda13185e3",
+    "url": "/what-to-watch-react/static/js/main.6d35edb6.chunk.js"
   },
   {
     "revision": "007146a48bfb7a3c4711",
     "url": "/what-to-watch-react/static/js/runtime-main.317e5aa5.js"
+  },
+  {
+    "revision": "82481d53eb354b043b86b87d0e1585f8",
+    "url": "/what-to-watch-react/static/media/magnifying-glass-icon.82481d53.svg"
   },
   {
     "revision": "8bf4dee2e3a274e2d52143070b8d57a6",
