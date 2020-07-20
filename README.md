@@ -37,7 +37,7 @@ If you click on the year that appears on the film card, the results will show al
 The searchbox reacts to the text you enter showing you a list of films that match your query on a pop-up below it. This films show title and year to differentiate films that share the same title, the more detailed the search the more exact the suggestions will be. Clicking on any of the suggestions will show its film card below. Making a query will show all the results match the query, at least partially, below.
 
 # Mark as watched/unwatched
-Clicking on the eye icon will mark a film as watched. Clickin on the "The End" text will mark it as unwatched.
+Clicking on the eye icon will mark a film as watched. Clicking on the "The End" text will mark it as unwatched.
 
 # Results
 Every time the users interact with the filters the results area will update with the matches.
