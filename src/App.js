@@ -42,9 +42,7 @@ class App extends Component {
         filterWatched: false,
         filterRuntime: false,
         filterGenre: false,
-        filterDecade: false,
-        filterYear: false,
-        filterDirector: false
+        filterDecade: false
     };
 
     this.resultsRef = React.createRef();  
@@ -100,6 +98,7 @@ class App extends Component {
       filteredFilms: films,
       searchText: '',
       selectedId: 0,
+      selectedDirector: '', 
       selectedYear: parseInt(y), 
       filterTriggered: true 
     })
@@ -113,21 +112,29 @@ class App extends Component {
       searchText: '',
       selectedId: 0,
       selectedDirector: d, 
-      selectedYear: 0, 
-      filterTriggered: true,
-      filterDirector: true 
+      selectedYear: null, 
+      filterTriggered: true
     })
   };
 
   checkFilters(filter,filterValue){
-    const { films, genres, hideWatched, newestDecade, oldestDecade, runtime, filterDecade, filterGenre, filterRuntime } = this.state;
+    const { films, filteredFilms, genres, hideWatched, newestDecade, oldestDecade, runtime, filterDecade, filterGenre, filterRuntime, selectedDirector, selectedYear } = this.state;
 
     let filtered = [...films];
 
     if (filter === "watched"){
-      if (!hideWatched){
+      if (this.state.selectedDirector.length){
+        !hideWatched 
+          ? filtered = filteredFilms.filter(f => f.watched !== !hideWatched)
+          : filtered = filtered.filter(f => f.director.some(d => selectedDirector.includes(d)));
+      } 
+      if (this.state.selectedYear > 0){
+        !hideWatched 
+          ? filtered = filteredFilms.filter(f => f.watched !== !hideWatched)
+          : filtered = filtered.filter(f => f.year === selectedYear);
+      } else if (!hideWatched){
         filtered = filtered.filter(f => f.watched !== !hideWatched)
-      }
+      } 
     } else if (hideWatched){
         filtered = filtered.filter(f => f.watched !== !hideWatched)
     }
@@ -184,7 +191,7 @@ class App extends Component {
       this.setState({ 
         filteredFilms: films,
         hideWatched: !this.state.hideWatched, 
-        filterWatched: true,
+        filterWatched: true
       }
     )
   };
@@ -195,6 +202,8 @@ class App extends Component {
       { 
         searchText: '',
         selectedId: 0,
+        selectedDirector: '',
+        selectedYear: 0,
         filteredFilms: films,
         runtime: parseInt(e.target.value), 
         filterRuntime: true,
@@ -215,23 +224,25 @@ class App extends Component {
         this.setState({ 
           searchText: '',
           selectedId: 0,
+          selectedDirector: '',
+          selectedYear: 0,
           filteredFilms: films,
           oldestDecade: decade,
           newestDecade: decade,
           filterTriggered: true,
-          filterDecade: true,
-          selectedYear: 0,
+          filterDecade: true
         })
         document.querySelector("#newest-decade").selectedIndex = selectedIndex;
       } else {
         this.setState({
           searchText: '',
           selectedId: 0,
+          selectedDirector: '',
+          selectedYear: 0,
           filteredFilms: films,
           oldestDecade: decade,
           filterTriggered: true,
-          filterDecade: true,
-          selectedYear: 0,
+          filterDecade: true
         })
       }
     }
@@ -243,21 +254,23 @@ class App extends Component {
         this.setState({ 
           searchText: '',
           selectedId: 0,
+          selectedDirector: '',
+          selectedYear: 0,
           filteredFilms: films,
           newestDecade: decade,
           filterTriggered: true,
-          filterDecade: true,
-          selectedYear: 0,
+          filterDecade: true
         })
       } else {
         this.setState({
           searchText: '',
           selectedId: 0,
+          selectedDirector: '',
+          selectedYear: 0,
           filteredFilms: films,
           newestDecade: this.state.oldestDecade,
           filterTriggered: true,
-          filterDecade: true,
-          selectedYear: 0,
+          filterDecade: true
         })
         document.querySelector("#newest-decade").selectedIndex = document.querySelector("#oldest-decade").selectedIndex;
       }
@@ -286,11 +299,12 @@ class App extends Component {
       this.setState({
         searchText: '',
         selectedId: 0,
+        selectedDirector: '',
+        selectedYear: 0,
         filteredFilms: films,
         genres: [...this.state.genres, genre],
         filterTriggered: true,
-        filterGenre: true,
-        selectedDirector: ''
+        filterGenre: true
       })
     } else {
         let genres = [...this.state.genres];
@@ -299,11 +313,12 @@ class App extends Component {
         this.setState({ 
           searchText: '',
           selectedId: 0,
+          selectedDirector: '',
+          selectedYear: 0,
           filteredFilms: films,
           genres: genres,
           filterTriggered: true,
-          filterGenre: true,
-          selectedDirector: ''
+          filterGenre: true
         })
     }
   }
@@ -337,12 +352,14 @@ class App extends Component {
   resetProperty = (e) => {
     if (e === "director"){
       this.setState({ 
-        selectedDirector: ''
+        selectedDirector: '',
+        filteredFilms: this.state.films
       })
     }
     if (e === "year"){
       this.setState({ 
-        selectedYear: 0
+        selectedYear: 0,
+        filteredFilms: this.state.films
       })
     }
   }
@@ -397,7 +414,7 @@ class App extends Component {
       submittedQuery: query,
       suggestedFilms: [],
       submitted: true,
-      searchText: '',
+      searchText: ''
     })
   }
     
@@ -405,41 +422,6 @@ class App extends Component {
     const { filterTriggered, filteredFilms, suggestedFilms, searchText, submitted, submittedQuery, selectedId, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
 
     let fullTime = this.convertTime(runtime);
-
-    // let filteredFilms = films.filter(film => 
-    //   film.runtime <= runtime
-    //   && (film.year >= oldestDecade && film.year <= newestDecade + 9) 
-    // )
-
-    // if (genres.length){
-    //   filteredFilms = filteredFilms.filter(film => 
-    //       film.genres.some(g => genres.includes(g))
-    //   )
-    // }
-
-    // Specific filters
-    // These filters reset the regular ones to default and focus on an specific year or director
-    // if the user interacts with the other filters they're overridden
-    
-    // if (selectedYear !== 0){
-    //   filteredFilms = this.state.films.filter(f => f.year === selectedYear);
-    // }
-
-    // if (selectedDirector.length){
-    //   filteredFilms = this.state.films.filter(f => f.director.some(g => selectedDirector.includes(g)));
-    // }
-
-    // if (hideWatched){
-    //   filteredFilms = filteredFilms.filter(f => !f.watched);
-    // }
-
-    // if (selectedId !== 0){
-    //   filteredFilms = films.filter(f => f.id === selectedId);
-    // }
-
-    // if (searchText.length > 0){
-    //   filteredFilms = films.filter(f => f.title.toLowerCase().includes(searchText.toLowerCase()))
-    // }
 
     return (
       <div id="full-wrapper">
