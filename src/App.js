@@ -410,10 +410,12 @@ class App extends Component {
       .filter(suggestedFilter(filters.id))
       .filter(watchedFilter(filters.hideWatched));
 
-    let filteredFilms = chainFilters(films, filters);
+    let filteredFilms = [];
 
     if (selectedYear > 0 || selectedDirector.length || selectedId > 0 || submitted){
       filteredFilms = chainSpecialFilters(films, filters);
+    } else {
+      filteredFilms = chainFilters(films, filters);
     }
 
     return (
