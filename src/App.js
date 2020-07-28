@@ -375,7 +375,7 @@ class App extends Component {
 
     const yearFilter = (year) => (film) => {
       if (year > 0){
-        return film.year === parseInt(year)
+        return film.year === year
       } else {
         return film;
       }       
