@@ -9,6 +9,7 @@ import FilterByGenre from './components/filters/FilterByGenre';
 import FilterByWatched from './components/filters/FilterByWatched';
 import Spinner from 'react-bootstrap/Spinner';
 import FilmCard from './components/films/FilmCard';
+import Pagination from './components/layout/Pagination';
 import Footer from './components/layout/Footer';
 
 import './styles/styles.css';
@@ -16,6 +17,7 @@ import './styles/styles.css';
 class App extends Component {
   constructor(props) {
     super(props);
+    this.itemsPerPage = 24;
     this.state = { 
         filterTriggered: false,
         runtime: 0,
@@ -37,7 +39,9 @@ class App extends Component {
         overlay: false,
         trailer: "",
         goToFilms: false,
-        activeFilter: ''
+        activeFilter: '',
+        currentPage: null,
+        totalPages: null
     };
 
     this.resultsRef = React.createRef();  
@@ -324,7 +328,7 @@ class App extends Component {
   }
     
   render(){
-    const { films, filterTriggered, suggestedFilms, searchText, submitted, submittedQuery, selectedId, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
+    const { films, currentPage, totalPages, filterTriggered, suggestedFilms, searchText, submitted, submittedQuery, selectedId, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
 
     let fullTime = this.convertTime(runtime);
 
@@ -417,6 +421,8 @@ class App extends Component {
     } else {
       filteredFilms = chainFilters(films, filters);
     }
+
+    console.log(filteredFilms.length)
 
     return (
       <div id="full-wrapper">
@@ -574,6 +580,12 @@ class App extends Component {
                 )                            
               })}
           </div>
+
+          <Pagination 
+            allRecords={filteredFilms.length} 
+            itemsPerPage={this.itemsPerPage} 
+          />
+
         </div>
         <Footer />
       </div>
