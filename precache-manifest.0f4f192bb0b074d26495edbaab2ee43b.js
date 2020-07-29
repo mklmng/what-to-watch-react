@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "17c23b8a8a22eacdc177716a5de0846e",
+    "revision": "31153649cb7c40291dd7c97d63df4ace",
     "url": "/what-to-watch-react/index.html"
   },
   {
-    "revision": "e7812c1d94cda13185e3",
+    "revision": "32ff932982579d6c591d",
     "url": "/what-to-watch-react/static/css/main.9a2ba240.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/what-to-watch-react/static/js/2.a71b3d29.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "e7812c1d94cda13185e3",
-    "url": "/what-to-watch-react/static/js/main.6d35edb6.chunk.js"
+    "revision": "32ff932982579d6c591d",
+    "url": "/what-to-watch-react/static/js/main.0130dbe6.chunk.js"
   },
   {
     "revision": "007146a48bfb7a3c4711",
