@@ -41,8 +41,9 @@ class App extends Component {
         trailer: "",
         goToFilms: false,
         activeFilter: '',
-        currentPage: null,
-        totalPages: null
+        currentPage: 1,
+        totalPages: null,
+        contentPerPage: []
     };
 
     const { runtime, genres, oldestDecade, newestDecade, hideWatched, selectedDirector, selectedYear, selectedId, submitted, submittedQuery } = this.state;
@@ -568,9 +569,20 @@ class App extends Component {
       searchText: ''
     })
   }
+
+  changePage = (index) => {
+    this.setState({
+      currentPage: parseInt(index + 1)
+    })
+  }
     
   render(){
     const { filteredFilms, filterTriggered, suggestedFilms, searchText, submitted, submittedQuery, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
+    let filmsperPage = filteredFilms;
+
+    if (filteredFilms.length > 24){
+      filmsperPage = filteredFilms.slice(((this.state.currentPage) - 1) * 24,(this.state.currentPage * 24));
+    } 
 
     let fullTime = this.convertTime(runtime);
 
@@ -707,7 +719,7 @@ class App extends Component {
                 </Spinner>
               }
               {!this.state.loading &&
-                filteredFilms.map((film) => {
+                filmsperPage.map((film) => {
                   return (
                     <FilmCard 
                         key={film.id}
@@ -733,10 +745,14 @@ class App extends Component {
               }
           </div>
 
-          <Pagination 
-            allRecords={filteredFilms.length} 
-            itemsPerPage={this.itemsPerPage} 
-          />
+          {filteredFilms.length > 24 && 
+            <Pagination 
+              allRecords={filteredFilms.length} 
+              itemsPerPage={this.itemsPerPage} 
+              changePage={this.changePage}
+              currentPage={this.state.currentPage}
+            />
+          }
 
         </div>
         <Footer />

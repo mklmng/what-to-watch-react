@@ -4,15 +4,13 @@ import PropTypes from 'prop-types'
 class Pagination extends Component {
     static propTypes = {
         allRecords: PropTypes.number.isRequired,
-        itemsPerPage: PropTypes.number.isRequired
-    }
-
-    constructor(props){
-        super(props)
+        itemsPerPage: PropTypes.number.isRequired,
+        changePage: PropTypes.func.isRequired,
+        currentPage: PropTypes.number.isRequired
     }
 
     render() {
-        const { allRecords, itemsPerPage } = this.props;
+        const { allRecords, itemsPerPage, changePage, currentPage } = this.props;
         let totalPages = Math.ceil(allRecords / itemsPerPage);
         let pageRange = [];
 
@@ -25,8 +23,11 @@ class Pagination extends Component {
                 <ul className="pagination">
                     {pageRange.map((film, index) => {
                     return (
-                    <li key={index} className="page-item">{film}</li> 
-                        )
+                    <li key={index} 
+                        className={`page-item ${currentPage === index + 1 ? "page-active" : ""}`}
+                        onClick={() => changePage(index)}>
+                        {film}
+                    </li>)
                     })
                     }
                 </ul>
