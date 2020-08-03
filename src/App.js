@@ -577,11 +577,11 @@ class App extends Component {
   }
     
   render(){
-    const { filteredFilms, filterTriggered, suggestedFilms, searchText, submitted, submittedQuery, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
+    const { currentPage, filteredFilms, filterTriggered, suggestedFilms, searchText, submitted, submittedQuery, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
     let filmsperPage = filteredFilms;
 
     if (filteredFilms.length > 24){
-      filmsperPage = filteredFilms.slice(((this.state.currentPage) - 1) * 24,(this.state.currentPage * 24));
+      filmsperPage = filteredFilms.slice(((currentPage) - 1) * 24,(currentPage * 24));
     } 
 
     let fullTime = this.convertTime(runtime);
@@ -750,7 +750,7 @@ class App extends Component {
               allRecords={filteredFilms.length} 
               itemsPerPage={this.itemsPerPage} 
               changePage={this.changePage}
-              currentPage={this.state.currentPage}
+              currentPage={currentPage}
             />
           }
 
