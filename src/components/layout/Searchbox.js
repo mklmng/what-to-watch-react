@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-export class Searchbox extends Component {
+class Searchbox extends Component {
     static propTypes = {
         handleChange: PropTypes.func.isRequired,
         searchText: PropTypes.string.isRequired,
@@ -31,7 +31,6 @@ export class Searchbox extends Component {
                         />
                         <div className="btn-wrapper">
                             <input className="btn-search" type="submit" value="Search" />
-                            {/* <span className="btn-search">Search</span> */}
                         </div>
                         {suggestedFilms.length > 0 && 
                             <ul className="autocomplete">

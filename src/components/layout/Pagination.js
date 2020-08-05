@@ -24,6 +24,7 @@ class Pagination extends Component {
                     {pageRange.map((film, index) => {
                     return (
                     <li key={index} 
+                        // When we are at the currentPage we add the class active to highlight it
                         className={`page-item ${currentPage === index + 1 ? "page-active" : ""}`}
                         onClick={() => changePage(index)}>
                         {film}

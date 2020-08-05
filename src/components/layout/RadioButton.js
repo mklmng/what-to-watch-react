@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-export class RadioButton extends Component {
+class RadioButton extends Component {
     static propTypes = {
         runtime: PropTypes.string.isRequired,
         runtimeText: PropTypes.string.isRequired,
@@ -12,7 +12,7 @@ export class RadioButton extends Component {
     render() {
         const { runtime, runtimeText, runtimeId, selectedRuntime } = this.props;
         let checkedRuntime = false;
-        if (runtime === selectedRuntime.toString()){
+        if (runtime === selectedRuntime){
             checkedRuntime = true;
         }
 

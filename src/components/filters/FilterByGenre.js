@@ -21,7 +21,7 @@ class FilterByGenre extends Component {
 
     render() {
         const { handleFilterByGenre, mainGenres, extraGenres, genres } = this.props;
-        
+        // Toggling the expanded area to show the remaining genres makes it scroll to that are to improve the mobile experience
         const toggleExpanded = (ref) => {
             this.setState({ expanded: !this.state.expanded });
             let elementCoordinates = ref.current.getBoundingClientRect();

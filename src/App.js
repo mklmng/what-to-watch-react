@@ -17,7 +17,6 @@ import './styles/styles.css';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.itemsPerPage = 24;
     this.state = { 
         filterTriggered: false,
         runtime: 0,
@@ -43,25 +42,9 @@ class App extends Component {
         activeFilter: '',
         currentPage: 1,
         totalPages: null,
-        contentPerPage: []
+        contentPerPage: [],
+        itemsPerPage: 24
     };
-
-    const { runtime, genres, oldestDecade, newestDecade, hideWatched, selectedDirector, selectedYear, selectedId, submitted, submittedQuery } = this.state;
-
-    // we create the filters properties and assign them the values we get from the state properties. 
-
-    this.filters = {
-      runtime,
-      genres,
-      oldestDecade,
-      newestDecade,
-      hideWatched,
-      director: selectedDirector,
-      year: selectedYear,
-      id: selectedId,
-      submitted: submitted,
-      submittedQuery: submittedQuery
-    }
 
     this.resultsRef = React.createRef();  
   }
@@ -96,7 +79,24 @@ class App extends Component {
               extraGenres: extraGenres,
               films: response.data,
               filteredFilms: response.data
-            })
+            });
+
+            const { genres, hideWatched, selectedDirector, selectedYear, selectedId, submitted, submittedQuery } = this.state;
+
+            // we create the filters properties and assign them the values we get from the state properties. 
+
+            this.filters = {
+              runtime: maxRuntime,
+              oldestDecade,
+              newestDecade,
+              genres,
+              hideWatched,
+              director: selectedDirector,
+              year: selectedYear,
+              id: selectedId,
+              submitted,
+              submittedQuery
+            }
         })
         .catch(error => {
             this.setState({ loading: false })
@@ -113,72 +113,35 @@ class App extends Component {
   // We define the different functions we'll need to chain every time the user interact with any of the filters.
 
   runtimeFilter = (filmRuntime) => (film) => {
-    if (filmRuntime > 0){
-      return film.runtime <= filmRuntime;
-    } else {
-      return true
-    }
+    return filmRuntime === 0 || film.runtime <= filmRuntime;
   }
 
   genreFilter = (genre) => (film) => {
-    if (genre.length){
-      return film.genres.some(g => genre.includes(g))
-    } else {
-      return true;
-    }
+    return !genre.length || film.genres.some(g => genre.includes(g))
   }
 
   watchedFilter = (hideWatched) => (film) => {
-    if (hideWatched){
-      return film.watched !== hideWatched;
-    } else{
-      return true;
-    }
+    return !hideWatched || film.watched !== hideWatched
   }
 
-  yearFilter = (year) => (film) => {
-    if (year > 0){
-      return film.year === year;
-    } else {
-      return true;
-    }
-  }
-
-  decadeFilter = (oldestDecade, newestDecade, year) => (film) => {
+  yearFilter = (oldestDecade, newestDecade, year) => (film) => {
     if (year === 0){
-      if (oldestDecade > 0 && newestDecade > 0){
-        return film.year >= oldestDecade && film.year <= newestDecade + 9;
-      } else {
-        return true;
-      }
-    }
-    else {
-      return true;
+      return film.year >= oldestDecade && film.year <= newestDecade + 9;
+    } else {
+      return film.year === year;
     }
   }
 
   directorFilter = (director) => (film) => {
-    if (director.length){
-      return film.director.some(d => director.includes(d));
-    } else {
-      return true;
-    }
+    return !director.length || film.director.some(d => director.includes(d));
   }
 
   submittedFilter = (submitted, submittedQuery) => (film) => {
-    if (submitted){
-      return film.title.toLowerCase().includes(submittedQuery)
-    } else {
-      return true;
-    }
+    return !submitted || film.title.toLowerCase().includes(submittedQuery);
   }
 
   suggestedFilter = (id) => (film) => {
-    if (id > 0){
-      return film.id === id
-    } else {
-      return true;
-    }
+    return id === 0 || film.id === id
   }
 
   // At this stage we have all we need to filter our films array using the functions and properties we defined earlier
@@ -187,8 +150,7 @@ class App extends Component {
   chainFilters = (films,filters) => films
     .filter(this.runtimeFilter(filters.runtime))
     .filter(this.genreFilter(filters.genres))
-    .filter(this.yearFilter(filters.year))
-    .filter(this.decadeFilter(filters.oldestDecade, filters.newestDecade, filters.year))
+    .filter(this.yearFilter(filters.oldestDecade, filters.newestDecade, filters.year))
     .filter(this.directorFilter(filters.director))
     .filter(this.submittedFilter(filters.submitted, filters.submittedQuery))
     .filter(this.suggestedFilter(filters.id))
@@ -198,11 +160,12 @@ class App extends Component {
   // since if the users selects the year I'm assuming that they want to see all films from that year ignoring possible filters they used earlier like runtime, genres, etc.
 
   handleFilterByYear = (y) => {
+    let currentPage = this.state.currentPage;
+
     this.filters.year = parseInt(y);
 
     this.filters.id = 0;
     this.filters.director = '';
-    this.filters.hideWatched = false;
     this.filters.submitted = false;
     this.filters.submittedQuery = '';  
     this.filters.runtime = parseInt(Math.max.apply(0, this.state.films.map(film => film.runtime))); 
@@ -210,6 +173,12 @@ class App extends Component {
 
     let filteredFilms = this.chainFilters(this.state.films, this.filters);
 
+    // If the number of records change after filtering and is greater that the number of items per page it resets the currentPage to 1 so it you'll always at the beginning of your filtered items.
+
+    if (filteredFilms.length > this.state.itemsPerPage){
+      currentPage = 1;
+    }
+ 
     this.setState({
       filteredFilms: filteredFilms,
       searchText: '',
@@ -217,22 +186,17 @@ class App extends Component {
       selectedYear: parseInt(y),
       selectedDirector: '', 
       filterTriggered: true,
-      submitted: false 
+      submitted: false,
+      currentPage
     })
   };
 
   handleFilterByDirector = (d) => {
-    this.filters.id = 0;
-    this.filters.year = 0;
-    this.filters.hideWatched = false;
-    this.filters.submitted = false;
-    this.filters.submittedQuery = this.state.searchText;  
-    this.filters.director = d;
+    let currentPage = this.state.currentPage;
 
     // After assigning the director to the filters director property we need to reset the reset of properties to default values to ensure we see all films by this director
     this.filters.id = 0;
     this.filters.year = 0;
-    this.filters.hideWatched = false;
     this.filters.submitted = false;
     this.filters.submittedQuery = '';  
     this.filters.runtime = parseInt(Math.max.apply(0, this.state.films.map(film => film.runtime))); 
@@ -243,6 +207,9 @@ class App extends Component {
     this.filters.genres = [];
 
     let filteredFilms = this.chainFilters(this.state.films, this.filters);
+    if (filteredFilms.length > this.state.itemsPerPage){
+      currentPage = 1;
+    }
 
     this.setState({
       filteredFilms: filteredFilms,
@@ -251,32 +218,43 @@ class App extends Component {
       selectedDirector: d, 
       selectedYear: 0, 
       filterTriggered: true,
-      submitted: false 
+      submitted: false,
+      currentPage
     })
   };
 
   handleFilterByWatched = () => {
+    let currentPage = this.state.currentPage;
+
     this.filters.hideWatched = !this.state.hideWatched;
 
     let filteredFilms = this.chainFilters(this.state.films, this.filters);
+    if (filteredFilms.length > this.state.itemsPerPage){
+      currentPage = 1;
+    }
 
     this.setState({ 
       filteredFilms: filteredFilms,
       hideWatched: !this.state.hideWatched, 
-      filterWatched: true
+      filterWatched: true,
+      currentPage
     })
   };
 
   handleFilterByRuntime = (e) => {
+    let currentPage = this.state.currentPage;
+
     this.filters.id = 0;
     this.filters.year = 0;
-    this.filters.hideWatched = false;
     this.filters.submitted = false;
     this.filters.submittedQuery = this.state.searchText;  
     this.filters.director = '';
 
     this.filters.runtime = parseInt(e.target.value);
     let filteredFilms = this.chainFilters(this.state.films, this.filters);
+    if (filteredFilms.length > this.state.itemsPerPage){
+      currentPage = 1;
+    }
 
     this.setState(
       { 
@@ -287,93 +265,58 @@ class App extends Component {
         selectedYear: 0,
         runtime: parseInt(e.target.value), 
         filterTriggered: true,
-        submitted: false 
+        submitted: false,
+        currentPage
       }
     ); 
   } 
 
   handleFilterByDecade = (e) => {
+    let currentPage = this.state.currentPage;
+
     const decade = parseInt(e.target.value);
     const selectedIndex = e.target.selectedIndex;
 
     this.filters.id = 0;
     this.filters.year = 0;
-    this.filters.hideWatched = false;
     this.filters.submitted = false;
     this.filters.submittedQuery = this.state.searchText;  
     this.filters.director = '';
 
     if (e.target.id === "oldest-decade"){
-      if (decade > this.state.newestDecade){
-
-        this.filters.oldestDecade = decade;
+      this.filters.oldestDecade = decade;
+      this.filters.newestDecade = this.state.newestDecade;
+      if (decade > this.state.newestDecade){  
         this.filters.newestDecade = decade;
-        let filteredFilms = this.chainFilters(this.state.films, this.filters);
-
-        this.setState({ 
-          filteredFilms: filteredFilms,
-          searchText: '',
-          selectedId: 0,
-          selectedDirector: '',
-          selectedYear: 0,
-          oldestDecade: decade,
-          newestDecade: decade,
-          filterTriggered: true,
-          submitted: false 
-        })
         document.querySelector("#newest-decade").selectedIndex = selectedIndex;
-      } else {
-        this.filters.oldestDecade = decade;
-        this.filters.newestDecade = this.state.newestDecade;
-        let filteredFilms = this.chainFilters(this.state.films, this.filters);
-
-        this.setState({
-          filteredFilms: filteredFilms,
-          searchText: '',
-          selectedId: 0,
-          selectedDirector: '',
-          selectedYear: 0,
-          oldestDecade: decade,
-          filterTriggered: true,
-          submitted: false 
-        })
       }
-    }
-
-    if (e.target.id === "newest-decade"){
+    } else{
+      this.filters.newestDecade = decade;
       this.filters.oldestDecade = this.state.oldestDecade;
 
-      if (decade >= this.state.oldestDecade){
-        this.filters.newestDecade = decade;
-        let filteredFilms = this.chainFilters(this.state.films, this.filters);
-
-        this.setState({ 
-          filteredFilms: filteredFilms,
-          searchText: '',
-          selectedId: 0,
-          selectedDirector: '',
-          selectedYear: 0,
-          newestDecade: decade,
-          filterTriggered: true,
-          submitted: false 
-        })
-      } else {
-        this.filters.newestDecade = this.state.oldestDecade;
-        let filteredFilms = this.chainFilters(this.state.films, this.filters);
-
-        this.setState({
-          filteredFilms: filteredFilms,
-          searchText: '',
-          selectedId: 0,
-          selectedDirector: '',
-          selectedYear: 0,
-          newestDecade: this.state.oldestDecade,
-          filterTriggered: true,
-          submitted: false 
-        })
+      if (decade < this.state.oldestDecade){
+        this.filters.oldestDecade = decade;
         document.querySelector("#newest-decade").selectedIndex = document.querySelector("#oldest-decade").selectedIndex;
       }
     }
+
+    let filteredFilms = this.chainFilters(this.state.films, this.filters);
+    if (filteredFilms.length > this.state.itemsPerPage){
+      currentPage = 1;
+    }
+
+    this.setState({ 
+      filteredFilms: filteredFilms,
+      searchText: '',
+      selectedId: 0,
+      selectedDirector: '',
+      selectedYear: 0,
+      oldestDecade: this.filters.oldestDecade,
+      newestDecade: this.filters.newestDecade,
+      filterTriggered: true,
+      submitted: false,
+      currentPage
+    });
   }   
 
   // This function was thought to allow the users seeeing the results when they click on the number of matches.
@@ -391,13 +334,13 @@ class App extends Component {
   }
 
   handleFilterByGenre = (e) => {
+    let currentPage = this.state.currentPage;
     let genre = "";
     // this checks if we are removing genres from the filter tags or adding/removing them from the genre filter
     typeof e === "string" ? genre = e : genre = e.target.value;
 
     this.filters.id = 0;
     this.filters.year = 0;
-    this.filters.hideWatched = false;
     this.filters.submitted = false;
     this.filters.submittedQuery = this.state.searchText;  
     this.filters.director = '';
@@ -405,6 +348,10 @@ class App extends Component {
     if (!this.state.genres.includes(genre)){
       this.filters.genres = [...this.state.genres, genre];    
       let filteredFilms = this.chainFilters(this.state.films, this.filters);
+
+      if (filteredFilms.length > this.state.itemsPerPage){
+        currentPage = 1;
+      }
 
       this.setState({
         filteredFilms: filteredFilms,
@@ -414,16 +361,19 @@ class App extends Component {
         selectedYear: 0,
         genres: [...this.state.genres, genre],
         filterTriggered: true,
-        submitted: false 
+        submitted: false,
+        currentPage
       })
     } else {
         let genres = [...this.state.genres];
         let index = genres.indexOf(genre);
         genres.splice(index, 1);
-
         this.filters.genres = genres;  
 
         let filteredFilms = this.chainFilters(this.state.films, this.filters);
+        if (filteredFilms.length > this.state.itemsPerPage){
+          currentPage = 1;
+        }
 
         this.setState({ 
           filteredFilms: filteredFilms,
@@ -433,7 +383,8 @@ class App extends Component {
           selectedYear: 0,
           genres: genres,
           filterTriggered: true,
-          submitted: false 
+          submitted: false,
+          currentPage
         })
     }
   }
@@ -537,13 +488,16 @@ class App extends Component {
       suggestedFilms: [],
       filterTriggered: true,
       submitted: false,
+      hideWatched: false,
       genres: []
     })
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = (event) => {  
     event.preventDefault();
    
+    let currentPage = this.state.currentPage;
+
     // After assigning the director to the filters director property we need to reset the reset of properties to default values to ensure we see all films by this director
     this.filters.id = 0;
     this.filters.year = 0;
@@ -559,6 +513,9 @@ class App extends Component {
     this.filters.genres = [];
 
     let filteredFilms = this.chainFilters(this.state.films, this.filters);
+    if (filteredFilms.length > this.state.itemsPerPage){
+      currentPage = 1
+    }
 
     this.setState({
       filteredFilms: filteredFilms,
@@ -566,7 +523,9 @@ class App extends Component {
       suggestedFilms: [],
       submitted: true,
       selectedId: 0,
-      searchText: ''
+      searchText: '',
+      hideWatched: false,
+      currentPage
     })
   }
 
@@ -577,7 +536,7 @@ class App extends Component {
   }
     
   render(){
-    const { currentPage, filteredFilms, filterTriggered, suggestedFilms, searchText, submitted, submittedQuery, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
+    const { itemsPerPage, currentPage, filteredFilms, filterTriggered, suggestedFilms, searchText, submitted, submittedQuery, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
     let filmsperPage = filteredFilms;
 
     if (filteredFilms.length > 24){
@@ -593,7 +552,7 @@ class App extends Component {
         {overlay &&  <FilmOverlay handleToggleOverlay={this.handleToggleOverlay} trailer={trailer} /> }
 
         <div className="container">
-          <div className="row below2">
+          <div className="row below1">
             <Header />
             <Searchbox
               searchText={searchText}
@@ -745,10 +704,12 @@ class App extends Component {
               }
           </div>
 
-          {filteredFilms.length > 24 && 
+          {filteredFilms.length}
+
+          {filteredFilms.length > itemsPerPage && 
             <Pagination 
               allRecords={filteredFilms.length} 
-              itemsPerPage={this.itemsPerPage} 
+              itemsPerPage={itemsPerPage} 
               changePage={this.changePage}
               currentPage={currentPage}
             />

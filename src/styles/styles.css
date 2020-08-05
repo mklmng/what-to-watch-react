@@ -22,9 +22,8 @@ body .container{
     box-sizing: border-box;
 }
 
-.below2{
-    margin-bottom: 2rem;
-}
+.below1{ margin-bottom: 1rem; }
+.below2{ margin-bottom: 2rem; }
 
 .search-box{
     margin-left: auto;
@@ -64,6 +63,10 @@ body .container{
     background: #fff;
     border-right: 1px solid #CCC;
     cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .film-pagination .page-item.page-active{
@@ -364,7 +367,9 @@ label[for="theme"]{
     background: #000;
     color:#FFF;
     padding: 0;
+    border-top: 1px solid #FFF;
     border-bottom: 0;
+    z-index: 3;
 }
 
 #search-labels{
@@ -768,11 +773,13 @@ footer small{
         bottom: 0;
         width: 100vw;
         left: 0;
-        z-index: 1;
     }
 }
 
 @media screen and (min-width: 768px) {   
+    #results{
+        border-top: 0;
+    }
     body .container{
         padding-top: 2rem;
     }

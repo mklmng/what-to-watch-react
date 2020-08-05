@@ -11,27 +11,27 @@ class FilterByRuntime extends Component {
     state = {
         runtimes: [
             {
-                runtime: "90",
+                runtime: 90,
                 runtimeId: "runtime-90",
                 runtimeText: "1h 30min"
             },
             {
-                runtime: "120",
+                runtime: 120,
                 runtimeId: "runtime-120",
                 runtimeText: "2h"
             },
             {
-                runtime: "150",
+                runtime: 150,
                 runtimeId: "runtime-150",
                 runtimeText: "2h 30min"
             },
             {
-                runtime: "180",
+                runtime: 180,
                 runtimeId: "runtime-180",
                 runtimeText: "3h"
             },
             {
-                runtime: "9999",
+                runtime: this.props.runtime,
                 runtimeId: "runtime-all",
                 runtimeText: "All the time in world"
             }

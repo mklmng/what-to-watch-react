@@ -22,12 +22,12 @@ class FilterByDecade extends Component {
               <h2 className="filter-header">Which era are you interested on?</h2>
             <div className="decades-filters">
               <label htmlFor="oldest-decade" className="decades-filters__label">From</label>
+              {/* We detect the change on the dropdowns at select level and generate the Dropdown components from decades array. The defaultValue ensures that the current selected value remains checked when switch between tabs. */}
               <select name="decades" id="oldest-decade" defaultValue={oldestDecade} onChange={(e) => handleFilterByDecade(e)}>
                 {decades.map((d, index) => {
                   return (
                       <Dropdown key={index}
                           decade={d}
-
                       />
                       )                            
                   })
