@@ -74,13 +74,21 @@ body .container{
     color: #FFF;
 }
 
+.film-pagination .page-item.disabled{
+    cursor: none;
+    pointer-events: none;
+    background: rgba(0,0,0,0.1);
+    color: #000;
+    border:0;
+}
+
 .film-pagination .page-item:hover, .film-pagination .page-item:focus{
     background: #000;
     color: #FFF;
 }
 
-.film-pagination .page-item:first-child{
-    border-left: 1px solid #CCC;
+.film-pagination .page-item:last-child{
+    border-right: 0;
 }
 
 .btn-wrapper{

@@ -534,6 +534,18 @@ class App extends Component {
       currentPage: parseInt(index + 1)
     })
   }
+
+  goPrev = (page) => {
+    this.setState({
+      currentPage: parseInt(page - 1)
+    })
+  }
+
+  goNext = (page) => {
+    this.setState({
+      currentPage: parseInt(page + 1)
+    })
+  }
     
   render(){
     const { itemsPerPage, currentPage, filteredFilms, filterTriggered, suggestedFilms, searchText, submitted, submittedQuery, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
@@ -703,18 +715,16 @@ class App extends Component {
                 })
               }
           </div>
-
-          {filteredFilms.length}
-
           {filteredFilms.length > itemsPerPage && 
             <Pagination 
               allRecords={filteredFilms.length} 
               itemsPerPage={itemsPerPage} 
               changePage={this.changePage}
+              goPrev={this.goPrev}
+              goNext={this.goNext}
               currentPage={currentPage}
             />
           }
-
         </div>
         <Footer />
       </div>
