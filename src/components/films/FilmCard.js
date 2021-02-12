@@ -28,7 +28,7 @@ class FilmCard extends Component {
             <div className="col-md-4" key={id}>
                 <div className={`card film-card mb-4 box-shadow ${watched ? 'watched' : ''}`}>                
                     <button className="icon-watched" title={`${!watched ? 'Mark as watched' : 'Mark as unwatched'}`} onClick={() => toggleFilmWatched(id)}></button>
-                    <img className="card-img-top" src={`https://via.placeholder.com/336x255?text=${title}`} alt={title} />
+                    <img className="card-img-top" src={`https://via.placeholder.com/336x255?text=${title}`} alt={`Poster of ${title}`} />
                     <div className="card-body">                            
                         <p itemScope className="card-text">
                             <span className="card-text__category">Title: </span> 

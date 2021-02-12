@@ -26,13 +26,17 @@ class Pagination extends Component {
         }
 
         return (
-            <div className="film-pagination">
+            <div className="film-pagination" role='navigation' aria-label='Pagination Links'>
                 <ul className="pagination">
                     {additionalNav &&
                     <li     
                         className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
                         onClick={() => goPrev(currentPage)}>
-                        <span aria-disabled="true" aria-label="Go to the previous page">&lt;</span>
+                        <span 
+                            aria-disabled="true" 
+                            aria-label="Go to the previous page"
+                            aria-controls='film-listings'>&lt;
+                        </span>
                     </li>
                     }                    
                     {pageRange.map((film, index) => {
@@ -40,8 +44,8 @@ class Pagination extends Component {
                     <li key={index} 
                         // When we are at the currentPage we add the class active to highlight it
                         className={`page-item ${currentPage === index + 1 ? "page-active" : ""}`}
-                        onClick={() => changePage(index)}>
-                        {film}
+                        onClick={() => changePage(index)}
+                        aria-controls='film-listings'>{film}
                     </li>)
                     })
                     }
@@ -49,7 +53,11 @@ class Pagination extends Component {
                     <li     
                         className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
                         onClick={() => goNext(currentPage)}>
-                        <span aria-disabled="true" aria-label="Go to the next page">&gt;</span>
+                        <span 
+                            aria-disabled="true" 
+                            aria-label="Go to the next page"
+                            aria-controls='film-listings'>&gt;
+                        </span>
                     </li>
                     } 
                 </ul>

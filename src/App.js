@@ -52,7 +52,7 @@ class App extends Component {
   componentDidMount() {
     if (this.state.films.length < 1){
       this.setState({ loading: true }, () => {
-        axios.get('https://gist.githubusercontent.com/mklmng/fa894dc9c86dfed34e45063adcf1b73e/raw/eab13d0cb818951da46c78ee18d07f904814015b/Films.json')
+        axios.get('https://gist.githubusercontent.com/mklmng/fa894dc9c86dfed34e45063adcf1b73e/raw/9ca41583e7ce600f4e77c10b44e100c5ab4a1f57/Films.json')
         .then(response => {
             let maxRuntime = parseInt(Math.max.apply(0, response.data.map(film => film.runtime)));  
             let filmYears = response.data.map(film => film.year);
@@ -572,27 +572,28 @@ class App extends Component {
               showFilm={this.showFilm}
             />
           </div>
-          <div className="row">
-            <div className="col-md-12">
-              <div className="main-filters">
-                <h2 className="sub-header">Filter by</h2>
+          <nav>
+            <div className="row">
+              <div className="col-md-12">
+                <div className="main-filters">
+                  <h2 className="sub-header">Filter by</h2>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-12 col-md-4">
-            <button 
-                className={`btn btn-sm btn-lg-3 btn-outline-secondary btn-filter ${activeFilter === 'runtime' ? 'active' : ''}`}
-                onClick={() => this.showFilter('runtime')}
-            >Runtime</button><button
-              className={`btn btn-sm btn-lg-3 btn-outline-secondary btn-filter ${activeFilter === 'genre' ? 'active' : ''}`}
-              onClick={() => this.showFilter('genre')}
-            >Genre</button><button
-              className={`btn btn-sm btn-lg-3 btn-outline-secondary btn-filter ${activeFilter === 'decade' ? 'active' : ''}`}
-            onClick={() => this.showFilter('decade')}
-          >Decade</button>
+            <div className="row">
+              <div className="col-12 col-md-4">
+              <button 
+                  className={`btn btn-sm btn-lg-3 btn-outline-secondary btn-filter ${activeFilter === 'runtime' ? 'active' : ''}`}
+                  onClick={() => this.showFilter('runtime')}
+              >Runtime</button><button
+                className={`btn btn-sm btn-lg-3 btn-outline-secondary btn-filter ${activeFilter === 'genre' ? 'active' : ''}`}
+                onClick={() => this.showFilter('genre')}
+              >Genre</button><button
+                className={`btn btn-sm btn-lg-3 btn-outline-secondary btn-filter ${activeFilter === 'decade' ? 'active' : ''}`}
+              onClick={() => this.showFilter('decade')}
+            >Decade</button>
+              </div>
             </div>
-          </div>
           <Fragment>
             {activeFilter === 'runtime' &&
                 <FilterByRuntime 
@@ -680,7 +681,9 @@ class App extends Component {
                   </div>
               </div>
           </div>
-          <div className="row product-list">
+          </nav>
+          <section>
+            <div className="row product-list" id='film-listings' role='main' aria-live='polite'>
               {this.state.loading && 
                 <Spinner animation="border" role="status">
                   <span className="sr-only">Loading...</span>
@@ -712,6 +715,7 @@ class App extends Component {
                 })
               }
           </div>
+          </section>
           {filteredFilms.length > itemsPerPage && 
             <Pagination 
               allRecords={filteredFilms.length} 
