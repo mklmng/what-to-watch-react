@@ -159,10 +159,10 @@ class App extends Component {
   // Some filters like handleFilterByYear, handleFilterByDirector, showFilm or handleSubmit need to reset the values of certain properties (oldestDecade, newestDecade, runtime, genres, etc) to default
   // since if the users selects the year I'm assuming that they want to see all films from that year ignoring possible filters they used earlier like runtime, genres, etc.
 
-  handleFilterByYear = (y) => {
+  handleFilterByYear = (year) => {
     let currentPage = this.state.currentPage;
 
-    this.filters.year = parseInt(y);
+    this.filters.year = parseInt(year);
 
     this.filters.id = 0;
     this.filters.director = '';
@@ -183,7 +183,7 @@ class App extends Component {
       filteredFilms: filteredFilms,
       searchText: '',
       selectedId: 0,
-      selectedYear: parseInt(y),
+      selectedYear: parseInt(year),
       selectedDirector: '', 
       filterTriggered: true,
       submitted: false,
@@ -191,7 +191,7 @@ class App extends Component {
     })
   };
 
-  handleFilterByDirector = (d) => {
+  handleFilterByDirector = (director) => {
     let currentPage = this.state.currentPage;
 
     // After assigning the director to the filters director property we need to reset the reset of properties to default values to ensure we see all films by this director
@@ -200,6 +200,7 @@ class App extends Component {
     this.filters.submitted = false;
     this.filters.submittedQuery = '';  
     this.filters.runtime = parseInt(Math.max.apply(0, this.state.films.map(film => film.runtime))); 
+    this.filters.director = director;
 
     let filmYears = this.state.films.map(film => film.year); // Get the years of the film database
     this.filters.oldestDecade = Math.floor(Math.min.apply(0, filmYears) / 10) * 10;
@@ -215,7 +216,7 @@ class App extends Component {
       filteredFilms: filteredFilms,
       searchText: '',
       selectedId: 0,
-      selectedDirector: d, 
+      selectedDirector: director, 
       selectedYear: 0, 
       filterTriggered: true,
       submitted: false,
@@ -241,7 +242,7 @@ class App extends Component {
     })
   };
 
-  handleFilterByRuntime = (e) => {
+  handleFilterByRuntime = (runtime) => {
     let currentPage = this.state.currentPage;
 
     this.filters.id = 0;
@@ -250,7 +251,7 @@ class App extends Component {
     this.filters.submittedQuery = this.state.searchText;  
     this.filters.director = '';
 
-    this.filters.runtime = parseInt(e.target.value);
+    this.filters.runtime = parseInt(runtime.target.value);
     let filteredFilms = this.chainFilters(this.state.films, this.filters);
     if (filteredFilms.length > this.state.itemsPerPage){
       currentPage = 1;
@@ -263,7 +264,7 @@ class App extends Component {
         selectedId: 0,
         selectedDirector: '',
         selectedYear: 0,
-        runtime: parseInt(e.target.value), 
+        runtime: parseInt(runtime.target.value), 
         filterTriggered: true,
         submitted: false,
         currentPage
@@ -418,18 +419,14 @@ class App extends Component {
     this.setState({ films: updatedFilms, selectedDirector: '' })
   }
 
-  // This function empties the values of directors and years when the users click on the respective label tags.
-  resetProperty = (e) => {
-    if (e === "director"){
-      this.setState({ 
-        selectedDirector: ''
-      })
-    }
-    if (e === "year"){
-      this.setState({ 
-        selectedYear: 0
-      })
-    }
+  // Reset to default
+  resetSearchResults = () => {
+    let updatedFilms = this.state.films;
+    this.setState({
+      filteredFilms: updatedFilms,
+      selectedDirector: '',
+      selectedYear: 0
+    })
   }
 
   handleChange = (e) => {
@@ -654,8 +651,8 @@ class App extends Component {
                         <span className="search-labels__tag">{oldestDecade}s - {newestDecade}s</span>
                         }
 
-                        {selectedYear > 0 && <span className="search-labels__tag search-labels__tag--interactive" onClick={() => this.resetProperty("year")}>{selectedYear}</span> }
-                        {selectedDirector !== "" && <span className="search-labels__tag search-labels__tag--interactive" onClick={() => this.resetProperty("director")}>Directed by {selectedDirector}</span> }
+                        {selectedYear > 0 && <span className="search-labels__tag search-labels__tag--interactive" onClick={() => this.resetSearchResults()}>{selectedYear}</span> }
+                        {selectedDirector !== "" && <span className="search-labels__tag search-labels__tag--interactive" onClick={() => this.resetSearchResults()}>Directed by {selectedDirector}</span> }
                         {hideWatched && <span className="search-labels__tag search-labels__tag--interactive" onClick={() => this.handleFilterByWatched()}>unseen</span>}
                       </Fragment>
                       }
