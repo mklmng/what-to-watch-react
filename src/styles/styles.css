@@ -515,7 +515,6 @@ label[for="theme"]{
 .card.film-card{
     color: #FFF;
     background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255,255,255, 0.4);
     position: relative;
 }
 
@@ -571,6 +570,10 @@ label[for="theme"]{
     border-right: 100px solid #000;
 
     background: none; 
+}
+
+body .card{
+    border: none;
 }
 
 .card-text{
@@ -725,7 +728,7 @@ label[for="theme"]{
 	right: 0;
 	bottom: 0;
     background: rgba(0,0,0,0.8);
-    z-index: 3;
+    z-index: 10;
 }
 
 .overlay__wrapper{
