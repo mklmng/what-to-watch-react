@@ -1,0 +1,47 @@
+.film-pagination{
+    margin-top: 1rem;
+    background: rgba(255,255,255,.3);
+    background: linear-gradient(to right, 
+        rgba(255,255,255,0) 0%,
+        rgba(173,173,173,0.25) 25%,
+        rgba(173,173,173,0.67) 50%,
+        rgba(173,173,173,0.25) 75%,
+        rgba(255,255,255,0) 100%);
+}
+
+.film-pagination .pagination{
+    justify-content: center;
+}
+
+.film-pagination .page-item{
+    padding: 0.5rem;
+    background: #fff;
+    border-right: 1px solid #CCC;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.film-pagination .page-item.page-active{
+    background: #000;
+    color: #FFF;
+}
+
+.film-pagination .page-item.disabled{
+    cursor: none;
+    pointer-events: none;
+    background: rgba(0,0,0,0.1);
+    color: #000;
+    border:0;
+}
+
+.film-pagination .page-item:hover, .film-pagination .page-item:focus{
+    background: #000;
+    color: #FFF;
+}
+
+.film-pagination .page-item:last-child{
+    border-right: 0;
+}

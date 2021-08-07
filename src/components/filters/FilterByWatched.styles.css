@@ -1,0 +1,36 @@
+#filter-watched .btn-outline-secondary{
+    background: #CCC;
+    color: #000;
+}
+
+.btn-outline-secondary:not(:disabled):not(.disabled).btn-filter.active{
+    background: #000;
+    box-shadow: none;
+    border-bottom: 0;
+    position: relative;
+}
+
+.btn-outline-secondary:not(:disabled):not(.disabled).btn-filter.active:hover{
+    box-shadow: none;
+}
+
+.btn-outline-secondary:not(:disabled):not(.disabled).btn-filter.active::after{
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    background: #000;
+    z-index: 1;
+}
+
+.btn-outline-secondary.btn-vod{
+    background: #A80000;
+    color: #FFF;
+}
+.btn-outline-secondary.btn-trailer{
+    background: #000;
+    color: #FFF;
+}

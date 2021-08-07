@@ -1,0 +1,49 @@
+#main-header{
+    background: #000;
+    position: relative;
+    text-align: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.header-main{
+    font-size: 2rem;
+    font-family: 'Quantico', sans-serif;
+    text-align: center;
+    color: #FFF;
+    margin: 0;
+    padding: 0 0.5rem;
+    display: inline;
+    border-bottom: 1px solid #FFF;
+}
+.header-main span{
+    color: #F00
+}
+.header-main::before,.header-main::after{
+    content: "\27A4";
+    color:#F00;
+    display: inline-block;
+}
+.header-main::after{
+    transform: scaleX(-1);
+}
+
+@media screen and (min-width: 48rem) {   
+    header{
+        max-width: 720px;
+        margin: 0 auto;
+    }
+
+    #main-header{
+        margin: 0;
+        text-align: left;
+    }
+}
+
+@media screen and (min-width: 64rem) {
+    header{
+        width: 100%;
+        max-width: 1024px;
+        margin: 0 auto;
+    }
+}

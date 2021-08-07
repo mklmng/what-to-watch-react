@@ -1,0 +1,39 @@
+#extra-genres .genre-selector{
+    padding: 1.6rem 0;
+    
+}
+
+.genre-selector,.decade-selector{
+    padding: 1rem;
+    display: inline-block;
+}
+
+.genre-selector {
+    text-align: center;
+    width: 33.33%;
+}
+
+.genre-selector label{
+    text-transform: capitalize;
+}
+
+.genre-items{
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+@media screen and (min-width: 30rem) {
+    .genre-selector{
+        width: 33.33%;
+    }
+}
+
+@media screen and (min-width: 48rem) {   
+    .genre-selector{
+        width: 15%;
+    }
+    #extra-genres .genre-selector{
+        width: 20%;
+    }
+}

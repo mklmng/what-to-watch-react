@@ -1,0 +1,56 @@
+#filter-genres{
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+}
+
+#main-genres,#extra-genres{
+    text-align: center;
+}
+.cta-expand{
+    background: rgba(255, 255, 255, 0.2);
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color:#FFF;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.5rem 0;
+    outline: none;
+}
+.cta-expand:hover{
+    color: #FF0
+}
+
+.cta-expand::after{
+    padding-left: 1rem;
+    display: inline-block;
+    content:"[ + ]";
+    color: #FF0;
+    transition: all ease-out .75s;
+}
+.cta-expand:hover::after{
+    color:#FFF;
+}
+
+.cta-expand.expanded::after{
+    content:"[ - ]";
+}
+
+#extra-genres{
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .75 ease-out;
+}
+
+.cta-expand.expanded + #extra-genres{
+    max-height: 1000px;
+    transition: max-height .75s ease-in;
+}
+
+@media screen and (min-width: 48rem) {   
+    #extra-genres{
+        width: 80%;
+        margin: 0 auto;
+    }
+}

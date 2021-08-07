@@ -1,0 +1,214 @@
+.item{
+    list-style-type: none;
+    overflow: hidden;
+    position: relative;
+    margin: .25rem;
+    flex: 1 0 calc(20% - .5rem);
+    flex-grow: 0;
+}
+
+.item::before{
+    display: block;
+    content: '';
+    width: 100%;
+    height: 0;
+    padding-bottom: 70.58%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.item:hover{
+    overflow: visible;
+}
+
+.item:hover .item-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: scale(1.1);
+    overflow: visible;
+    z-index: 10;      
+    border: 1px solid rgba(0,0,0,.4);  
+}
+
+.item:hover .item-title-container{
+    display: block;
+    visibility: visible;
+}
+
+.item-container{
+    overflow: hidden;
+    transition: .5s all ease-in-out;
+    position: relative;
+    background: #ccc;
+
+    border: 1px solid rgba(0,0,0,0);  
+}
+
+.item-item-poster-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.card-body{
+    display: none;
+}
+
+.item-title-container{
+    display: none;
+    visibility: hidden;
+    padding: 1rem;
+    background: #565353;
+    color: #DDD;
+}
+
+.item-title-container h1{
+    font-size: 1.2rem;
+    margin: 0;
+    padding: 0;
+}
+
+.item-title-container p{
+    font-size: 0.75rem;
+}
+
+.item-poster{
+    width: 100%;
+    height: auto;
+}
+
+.card-text__filter{
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: capitalize;
+}
+.card-text__filter:hover{
+    color: #FF0;
+}
+.card-text__filter:last-of-type{
+    padding-right: .25rem;
+}
+
+.card-text--description{
+    display: inline;
+    padding-right: .25rem;
+}
+
+.card.film-card.watched::before{
+    /* background: rgba(0,0,0,.5); */
+    content:'';
+    padding-right: 0.5rem;
+    font-weight: bold;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.card.film-card.watched::after{
+    content:'Watched';
+    z-index: 3;
+    font-weight: bold;
+    display: block;
+    position: absolute;
+    color:#FFF; 
+    pointer-events: none;
+    text-align: center;
+}
+
+.icon-watched{
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 100px;
+    height: 28px;
+    color: #000;
+    background: top right / contain no-repeat url(../../assets/icons/watched-icon.svg);
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+
+.icon-watched:focus{ outline: none;border: none; }
+
+.watched .icon-watched{
+    top: 0;
+    right: 0;   
+    background: #363636;
+    width: 100%;
+}
+
+body .card{
+    border: none;
+}
+
+.card.film-card.watched:after, .card.film-card.watched:before {
+    padding-right: .5rem;
+    font-weight: 700;
+    display: block;
+    position: absolute;
+    right: 0;
+    pointer-events: none;
+}
+
+.card.film-card.watched:after {
+    content: "Watched";
+    font-size: 0.9rem;
+    text-align: center;
+    z-index: 3;
+    /* top: 1.75rem; */
+    color: #fff;
+    width: 100%;
+    padding: .25rem 0;
+}
+
+.btn-vod:hover{
+    background: #FFF;
+    color:#000;
+}
+
+.btn-trailer:hover{
+    background: #FFF;
+    color: #000;
+}
+
+
+@media (max-width: 37.5rem) {
+    .item{
+        flex-basis: calc(100% - .5rem);
+        margin-left: .25rem;
+        margin-right: .25rem;
+        /* flex-basis: calc(50% - .5rem); */
+    }
+
+    .item-title-container h1{
+        font-size: 1rem;
+    }
+
+    .item .item-container, .item:hover .item-container{
+        position: relative;
+        transform: none;
+        overflow: visible;
+        z-index: 10;        
+    }
+    
+    .item .item-title-container, .item:hover .item-title-container{
+        display: block;
+        visibility: visible;
+    }
+}
+
+@media (min-width: 37.5625rem) and (max-width: 64rem) {
+    .item{
+        flex-basis: calc(25% - .5rem);
+    }
+}
+

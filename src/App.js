@@ -1,16 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import axios from 'axios';
-import FilmOverlay from './components/films/FilmOverlay';
-import Header from './components/layout/Header';
-import Searchbox from './components/layout/Searchbox';
-import FilterByRuntime from './components/filters/FilterByRuntime';
-import FilterByDecade from './components/filters/FilterByDecade';
-import FilterByGenre from './components/filters/FilterByGenre';
-import FilterByWatched from './components/filters/FilterByWatched';
+import FilmOverlay from './components/films/FilmOverlay.component';
+import Header from './components/layout/Header.component';
+import Searchbox from './components/layout/Searchbox.component';
+import FilterByRuntime from './components/filters/FilterByRuntime.component';
+import FilterByDecade from './components/filters/FilterByDecade.component';
+import FilterByGenre from './components/filters/FilterByGenre.component';
+import FilterByWatched from './components/filters/FilterByWatched.component';
 import Spinner from 'react-bootstrap/Spinner';
-import FilmCard from './components/films/FilmCard';
-import Pagination from './components/layout/Pagination';
-import Footer from './components/layout/Footer';
+import FilmCard from './components/films/FilmCard.component';
+import Pagination from './components/layout/Pagination.component';
+import Footer from './components/layout/Footer.component';
 
 import './styles/styles.css';
 
@@ -43,7 +43,7 @@ class App extends Component {
         currentPage: 1,
         totalPages: null,
         contentPerPage: [],
-        itemsPerPage: 24
+        itemsPerPage: 25
     };
 
     this.resultsRef = React.createRef();  
@@ -548,15 +548,15 @@ class App extends Component {
     const { itemsPerPage, currentPage, filteredFilms, filterTriggered, suggestedFilms, searchText, submitted, submittedQuery, runtime, selectedYear, selectedDirector, oldestDecade, newestDecade, hideWatched, genres, trailer, overlay, activeFilter, mainGenres, extraGenres } = this.state;
     let filmsperPage = filteredFilms;
 
-    if (filteredFilms.length > 24){
-      filmsperPage = filteredFilms.slice(((currentPage) - 1) * 24,(currentPage * 24));
+    if (filteredFilms.length > 25){
+      filmsperPage = filteredFilms.slice(((currentPage) - 1) * 25,(currentPage * 25));
     } 
 
     let fullTime = this.convertTime(runtime);
 
     return (
       <div id="full-wrapper">
-        {overlay &&  <FilmOverlay handleToggleOverlay={this.handleToggleOverlay} trailer={trailer} /> }
+        {overlay && <FilmOverlay handleToggleOverlay={this.handleToggleOverlay} trailer={trailer} /> }
         <div className="container">
           <div className="row below1">
             <Header />
@@ -680,7 +680,7 @@ class App extends Component {
           </div>
           </nav>
           <section>
-            <div className="row product-list" id='film-listings' role='main' aria-live='polite'>
+            <ul className="list" id='film-listings' role='main' aria-live='polite'>
               {this.state.loading && 
                 <Spinner animation="border" role="status">
                   <span className="sr-only">Loading...</span>
@@ -711,7 +711,7 @@ class App extends Component {
                   )                            
                 })
               }
-          </div>
+          </ul>
           </section>
           {filteredFilms.length > itemsPerPage && 
             <Pagination 
