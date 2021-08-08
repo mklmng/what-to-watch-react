@@ -44,7 +44,7 @@
 }
 
 .cta-expand.expanded + #extra-genres{
-    max-height: 1000px;
+    max-height: 6.25rem;
     transition: max-height .75s ease-in;
 }
 

@@ -17,7 +17,7 @@
     margin-right: -50%;
     transform: translate(-50%,-50%);
 	width: 100%;
-	max-width: 560px;
+	max-width: 35rem;
 }
 
 .overlay__wrapper__video-container{
@@ -34,7 +34,7 @@
     color: #FFF;
     padding: .5rem;
     position: absolute;
-    top: -39px;
+    top: -2.5rem;
     right: 1rem;
     border: 1px solid #CCC;
     pointer-events: none;

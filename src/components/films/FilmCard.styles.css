@@ -3,28 +3,15 @@
     overflow: hidden;
     position: relative;
     margin: .25rem;
-    flex: 1 0 calc(20% - .5rem);
+    flex: 1 0 calc(100% - .5rem);
     flex-grow: 0;
-}
-
-.item::before{
-    display: block;
-    content: '';
-    width: 100%;
-    height: 0;
-    padding-bottom: 70.58%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
 }
 
 .item:hover{
     overflow: visible;
 }
 
-.item:hover .item-container{
+.item .item-container:hover{
     position: absolute;
     top: 0;
     left: 0;
@@ -128,8 +115,8 @@
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
-    width: 100px;
-    height: 28px;
+    width: 6.25rem;
+    height: 1.75rem;
     color: #000;
     background: top right / contain no-repeat url(../../assets/icons/watched-icon.svg);
     cursor: pointer;
@@ -181,9 +168,9 @@ body .card{
 }
 
 
-@media (max-width: 37.5rem) {
+@media (min-width: 30rem) and (max-width: 47.9375rem) {
     .item{
-        flex-basis: calc(100% - .5rem);
+        flex-basis: calc(50% - .5rem);
         margin-left: .25rem;
         margin-right: .25rem;
         /* flex-basis: calc(50% - .5rem); */
@@ -206,9 +193,16 @@ body .card{
     }
 }
 
-@media (min-width: 37.5625rem) and (max-width: 64rem) {
+@media (min-width: 48rem) {
     .item{
         flex-basis: calc(25% - .5rem);
+        height: 9.625rem;
+    }
+}
+
+@media (min-width: 64.5625rem) {
+    .item{
+        flex-basis: calc(20% - .5rem);
     }
 }
 

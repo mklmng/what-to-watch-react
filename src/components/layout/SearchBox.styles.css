@@ -66,12 +66,12 @@
 @media screen and (min-width: 48rem) {   
     #search{
         width: initial;
-        max-width: 255px;
+        max-width: 15.9375rem;
     }
 
     .autocomplete{
         width: 100%;
-        max-width: 287px;
+        max-width: 17.9375rem;
     }
 
     .btn-wrapper{

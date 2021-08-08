@@ -30,7 +30,7 @@
 
 @media screen and (min-width: 48rem) {   
     header{
-        max-width: 720px;
+        max-width: 45rem;
         margin: 0 auto;
     }
 
@@ -43,7 +43,7 @@
 @media screen and (min-width: 64rem) {
     header{
         width: 100%;
-        max-width: 1024px;
+        max-width: 64rem;
         margin: 0 auto;
     }
 }
