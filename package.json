@@ -13,7 +13,7 @@
     "@testing-library/user-event": "^7.1.2",
     "@types/react": "^17.0.2",
     "airtable": "^0.10.1",
-    "axios": "^0.21.2",
+    "axios": "^1.6.0",
     "bootstrap-icons": "^1.0.0-alpha4",
     "npm-watch": "^0.6.0",
     "react": "^16.13.1",
