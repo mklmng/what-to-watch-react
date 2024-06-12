@@ -15,7 +15,7 @@
     "airtable": "^0.10.1",
     "axios": "^0.28.0",
     "bootstrap-icons": "^1.0.0-alpha4",
-    "npm-watch": "^0.6.0",
+    "npm-watch": "^0.13.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
